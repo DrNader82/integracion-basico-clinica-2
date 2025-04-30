@@ -3,189 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integración Básico Clínica II - Tema Azul Profesional</title>
+    <title>Integración Básico Clínica II</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Configuración General y Paleta Azul --- */
-        :root {
-            /* Fondos */
-            --bg-main: #edf2f7; /* Gris muy claro, casi blanco pero más suave */
-            --bg-container: #ffffff; /* Blanco para contenedores principales */
-            --bg-header: #2b6cb0; /* Azul medio/oscuro para el header */
-            --bg-details: #e2e8f0; /* Azul muy pálido/grisáceo para fondo de secciones */
-            --bg-details-hover: #cbd5e0; /* Azul/gris un poco más oscuro para hover */
-            --bg-article: #ffffff; /* Blanco para artículos */
-            --bg-article-hover: #f7fafc; /* Blanco ligeramente azulado/grisáceo */
-
-            /* Textos */
-            --text-main: #2d3748; /* Gris oscuro para texto principal */
-            --text-secondary: #4a5568; /* Gris medio para texto secundario */
-            --text-header: #ffffff; /* Texto del header (blanco) */
-            --text-title-section: #2c5282; /* Azul oscuro para títulos de sección */
-            --text-title-article: #2b6cb0; /* Azul medio para títulos de artículo */
-            --text-key-concept: #3182ce; /* Azul brillante para conceptos clave */
-
-            /* Bordes y Acentos */
-            --border-color: #e2e8f0; /* Borde azul/gris pálido */
-            --arrow-color: #2c5282; /* Color de la flecha (azul oscuro) */
-            --shadow-color-light: rgba(45, 55, 72, 0.1); /* Sombra clara */
-            --shadow-color-medium: rgba(45, 55, 72, 0.15); /* Sombra media */
-        }
-
+        /* Aplica la fuente 'Inter' a todo el cuerpo del documento */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
         }
-
-        /* --- Estilos para <details> y <summary> --- */
-        summary::-webkit-details-marker,
-        summary::marker {
+        /* Oculta el marcador predeterminado (flecha/triángulo) del elemento summary */
+        summary::-webkit-details-marker {
             display: none;
         }
-
+        summary::marker {
+            content: ''; /* Oculta el marcador en Firefox */
+            display: none;
+        }
+        /* Estilos para el elemento summary (el título clickeable de details) */
         summary {
-            position: relative;
-            padding-left: 2.25rem;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            cursor: pointer;
-            list-style: none;
-            display: block;
-            user-select: none;
-            transition: background-color 0.2s ease;
-            color: var(--text-title-section);
-            font-weight: 600;
-            font-size: 1.25rem; /* lg */
-            border-top-left-radius: 0.5rem; /* Redondeo superior */
-            border-top-right-radius: 0.5rem;
+            position: relative; /* Necesario para posicionar el pseudo-elemento ::before */
+            padding-left: 2rem; /* Espacio a la izquierda para la flecha */
+            cursor: pointer; /* Cambia el cursor a una mano para indicar que es clickeable */
+            list-style: none; /* Elimina cualquier estilo de lista predeterminado */
+            display: block; /* Asegura que ocupe todo el ancho disponible */
+            user-select: none; /* Evita que el texto del summary sea seleccionable */
+            transition: background-color 0.2s ease; /* Transición suave para el hover */
         }
-        @media (min-width: 768px) {
-             summary { font-size: 1.5rem; /* xl */ }
-        }
-
+        /* Efecto hover para el summary */
         summary:hover {
-            background-color: var(--bg-details-hover);
+            /* Mantenemos un ligero cambio de fondo blanco transparente */
+            background-color: rgba(255, 255, 255, 0.1);
         }
-
+        /* Flecha personalizada usando un pseudo-elemento ::before */
         summary::before {
-            content: '►';
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.2s ease-in-out;
-            color: var(--arrow-color);
-            font-size: 0.8em;
+            content: '►'; /* Carácter de flecha apuntando a la derecha (estado colapsado) */
+            position: absolute; /* Posicionamiento absoluto respecto al summary */
+            left: 1rem; /* Posición desde la izquierda */
+            top: 50%; /* Centrado verticalmente */
+            transform: translateY(-50%); /* Ajuste fino para centrado vertical perfecto */
+            transition: transform 0.2s ease-in-out; /* Animación suave para la rotación */
+            /* Mantenemos la flecha blanca para contraste con el fondo azul */
+            color: white;
+            font-size: 0.8em; /* Tamaño de la flecha */
         }
-
+        /* Estilo de la flecha cuando el elemento details está abierto */
         details[open] > summary::before {
-            transform: translateY(-50%) rotate(90deg);
+            transform: translateY(-50%) rotate(90deg); /* Rota la flecha 90 grados hacia abajo */
         }
-
+        /* Añade un borde inferior al summary cuando la sección está abierta */
         details[open] > summary {
-            border-bottom: 1px solid var(--border-color);
-             /* Quitar redondeo inferior cuando está abierto */
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
+            /* Borde blanco sutil para separar el título del contenido */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
-
+        /* Espaciado interno para el contenido dentro de details cuando está abierto */
         details[open] > div {
-             padding-top: 1.5rem;
-             padding-left: 2.25rem;
-             padding-right: 1.5rem;
-             padding-bottom: 1.5rem;
+             padding-top: 1rem; /* Espacio superior para el contenido desplegado */
         }
-
-        /* --- Estilos para los artículos --- */
+        /* Estilos para los artículos individuales (infografías/casos clínicos) */
         article {
-            transition: box-shadow 0.3s ease, transform 0.2s ease;
-            background-color: var(--bg-article);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 2px var(--shadow-color-light);
-            overflow: hidden;
+            /* Transición suave para la sombra y color de fondo al pasar el mouse */
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
         }
+        /* Sombra más pronunciada y ligero cambio de fondo al pasar el mouse */
         article:hover {
-            box-shadow: 0 5px 15px var(--shadow-color-medium);
-            transform: translateY(-2px);
-            background-color: var(--bg-article-hover);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra un poco más oscura */
         }
-
-        article h3 {
-            color: var(--text-title-article);
-            font-weight: 600;
-        }
-        article p {
-            color: var(--text-secondary);
-        }
-        .key-concept {
-            color: var(--text-key-concept);
-            font-weight: 600;
-        }
-
-        /* Placeholder div styling */
-        .placeholder-content {
-            background-color: #f8fafc; /* Fondo muy claro */
-            color: #718096; /* Gris azulado */
-            border: 1px dashed #cbd5e0; /* Borde azul/gris pálido */
-            border-radius: 0.375rem;
-            padding: 1.5rem;
-            text-align: center;
-            min-height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Footer text color */
-        footer {
-            color: var(--text-secondary);
-        }
-
-        /* --- Estilos específicos --- */
-        /* Contenedor principal de secciones desplegables */
-        .details-container {
-            background-color: var(--bg-details);
-            border-radius: 0.75rem; /* Bordes redondeados */
-            box-shadow: 0 4px 6px var(--shadow-color-light);
-            overflow: hidden;
-        }
-        /* Contenido dentro de las secciones desplegables */
-        .details-content {
-             background-color: var(--bg-container); /* Fondo blanco */
-             /* Asegura redondeo inferior cuando está abierto */
-             border-bottom-left-radius: 0.5rem;
-             border-bottom-right-radius: 0.5rem;
-        }
-
-        /* Eliminar margen inferior del último artículo */
-        .details-content article:last-child {
-             margin-bottom: 0;
-        }
-
     </style>
 </head>
-<body class="p-4 md:p-8 min-h-screen flex flex-col">
+<body class="bg-gray-900 text-gray-200 p-4 md:p-8 min-h-screen flex flex-col">
 
     <header class="mb-8 md:mb-12">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold p-4 md:p-6 rounded-lg text-center shadow-lg" style="background-color: var(--bg-header); color: var(--text-header);">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white bg-gray-800 p-4 md:p-6 rounded-lg text-center shadow-lg">
             Integración Básico Clínica - II
         </h1>
     </header>
 
-    <main class="space-y-8 flex-grow">
+    <main class="space-y-6 flex-grow">
 
-        <details class="details-container group">
-            <summary class="text-xl md:text-2xl">
+        <details class="bg-blue-900 text-white rounded-lg shadow-md overflow-hidden group">
+            <summary class="text-xl md:text-2xl font-bold p-4 md:p-5 select-none">
                 Infografías Interactivas
             </summary>
-            <div class="details-content p-4 md:p-6">
-                <article class="mb-6 p-5">
-                    <h3 class="text-lg font-semibold mb-2">Embarazo Ectópico</h3>
-                    <p class="text-sm mb-3">Diagnóstico y Tratamiento del <strong class="key-concept">Embarazo Ectópico</strong> PR´25</p>
-                    <div class="placeholder-content">
+            <div class="p-4 md:p-6 bg-gray-800 text-gray-200">
+                <article class="mb-6 p-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 hover:bg-gray-600">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-400">Infografía: Diabetes Gestacional</h3>
+                    <p class="text-sm text-gray-300 mb-3">Guía visual interactiva sobre el Diagnóstico y Tratamiento de la Diabetes Gestacional</p>
+                    <div class="bg-gray-600 p-6 rounded text-center text-gray-400 min-h-[150px] flex items-center justify-center">
+                        <span><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Diabetes y Embarazo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos personalizados */
+        body {
+            font-family: 'Inter', sans-serif; /* Fuente Inter */
+            background-color: #111827; /* Fondo oscuro más profundo */
+            color: #d1d5db; /* Color de texto claro por defecto (gris claro) */
+        }
+        .info-section {
+            background-color: #1f2937; /* Fondo ligeramente más claro para secciones (gris oscuro) */
+            border-left: 4px solid; /* Borde lateral para destacar */
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out, padding 0.3s ease, margin-top 0.3s ease; /* Transición suave */
+            overflow: hidden; /* Ocultar contenido que excede max-height */
+            max-height: 0; /* Oculto por defecto */
+            opacity: 0; /* Opaco por defecto */
+            padding: 0 1rem; /* Padding horizontal inicial para evitar saltos */
+            margin-top: 0;
+            border-radius: 0 0.5rem 0.5rem 0; /* Bordes redondeados solo en el lado derecho */
+        }
+        .info-section.active {
+            max-height: 1500px; /* Altura máxima suficiente para el contenido */
+            opacity: 1; /* Hacer visible */
+            padding: 1rem; /* Añadir padding completo cuando está activo */
+            margin-top: 0.5rem; /* Espacio superior cuando está activo */
+        }
+        /* Colores brillantes para bordes y texto (Sin Rosa) */
+        .border-cyan-400 { border-color: #22d3ee; }
+        .text-cyan-300 { color: #67e8f9; }
+        .border-amber-400 { border-color: #fbbf24; } /* Naranja/Ámbar */
+        .text-amber-300 { color: #fcd34d; } /* Naranja/Ámbar */
+        .border-lime-400 { border-color: #a3e635; } /* Verde Lima */
+        .text-lime-300 { color: #bef264; } /* Verde Lima */
+        .border-violet-400 { border-color: #a78bfa; } /* Violeta */
+        .text-violet-300 { color: #c4b5fd; } /* Violeta */
+        .border-emerald-400 { border-color: #34d399; } /* Esmeralda */
+        .text-emerald-300 { color: #6ee7b7; } /* Esmeralda */
+        .border-sky-400 { border-color: #38bdf8; } /* Azul Cielo */
+        .text-sky-300 { color: #7dd3fc; } /* Azul Cielo */
+        .text-red-400 { color: #f87171; } /* Rojo para alertas */
+        .text-gray-400 { color: #9ca3af; } /* Gris para texto secundario */
+        .text-gray-500 { color: #6b7280; } /* Gris más oscuro para notas */
+        .text-yellow-300 { color: #fde047; } /* Amarillo para énfasis */
+        .text-orange-400 { color: #fb923c; } /* Naranja para énfasis */
+
+
+        /* Estilo de botones */
+        .info-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Sombra más definida */
+            background-color: #374151; /* Gris medio oscuro para botones */
+            color: #e5e7eb; /* Texto claro para botones */
+            border-radius: 0.5rem; /* Bordes redondeados */
+            text-align: left;
+            padding: 1rem;
+            width: 100%;
+        }
+        .info-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            background-color: #4b5563; /* Ligeramente más claro al pasar el mouse */
+        }
+        .info-button:focus {
+            outline: none;
+            ring: 3px; /* Anillo de foco más grueso */
+            ring-offset: 2px;
+            ring-offset-color: #111827; /* Color de fondo para el offset */
+        }
+         /* Anillos de foco con colores correspondientes (Sin Rosa) */
+        .focus\:ring-cyan-400:focus { --tw-ring-color: #22d3ee; }
+        .focus\:ring-amber-400:focus { --tw-ring-color: #fbbf24; }
+        .focus\:ring-lime-400:focus { --tw-ring-color: #a3e635; }
+        .focus\:ring-violet-400:focus { --tw-ring-color: #a78bfa; }
+        .focus\:ring-emerald-400:focus { --tw-ring-color: #34d399; }
+        .focus\:ring-sky-400:focus { --tw-ring-color: #38bdf8; }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(1, minmax(0, 1fr)); /* Una columna en pantallas pequeñas */
+            }
+            .md\:col-span-2 {
+                 grid-column: span 1 / span 1; /* Asegurar que las secciones ocupen una columna en móvil */
+            }
+            body {
+                padding: 0.5rem; /* Menos padding en móvil */
+            }
+            .container-wrapper {
+                 padding: 1rem; /* Padding interno del contenedor principal */
+            }
+        }
+    </style>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="container-wrapper max-w-4xl mx-auto bg-gray-800 rounded-lg shadow-xl p-6">
+        <h1 class="text-3xl font-bold text-center mb-8 text-cyan-300">🤰 Diabetes y Embarazo: Puntos Clave</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <button class="info-button focus:ring-cyan-400" data-target="info-intro">
+                    <span class="text-lg font-semibold text-cyan-300">💥 Introducción e Impacto</span>
+                </button>
+                <div id="info-intro" class="info-section border-cyan-400">
+                    <h3 class="font-bold text-xl mb-3 text-cyan-300">Impacto de la Diabetes en el Embarazo</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Complicación médica frecuente en el embarazo.</li>
+                        <li><strong class="text-amber-300">Riesgos Maternos:</strong> Aumenta riesgo de preeclampsia y cesárea.</li>
+                        <li><strong class="text-sky-300">Riesgos Fetales/Neonatales:</strong>
+                            <ul class="list-disc list-inside ml-5 mt-1 space-y-1">
+                                <li>Hiperglucemia materna ➡️ Hiperinsulinemia fetal ➡️ <strong class="text-yellow-300">Macrosomía</strong> (crecimiento excesivo, grasa en hombros/tronco).</li>
+                                <li>Macrosomía ➡️ Riesgo de distocia de hombros y trauma obstétrico.</li>
+                                <li>Post-parto (pinzamiento cordón) ➡️ Cese de glucosa materna + hiperinsulinemia neonatal persistente ➡️ <strong class="text-red-400">Hipoglucemia neonatal</strong> (requiere manejo inmediato).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <button class="info-button focus:ring-amber-400" data-target="info-tipos">
+                    <span class="text-lg font-semibold text-amber-300">🩺 Tipos de Diabetes</span>
+                </button>
+                <div id="info-tipos" class="info-section border-amber-400">
+                    <h3 class="font-bold text-xl mb-3 text-amber-300">Distinción Clave</h3>
+                     <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg text-violet-300">Diabetes Mellitus Pregestacional (DMPG)</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
+                                <li>Diagnóstico de DM1 o DM2 <strong class="text-yellow-300">antes</strong> del embarazo.</li>
+                                <li>Mayor riesgo basal materno (retinopatía, nefropatía, cetoacidosis, preeclampsia).</li>
+                                <li>Mayor riesgo fetal (malformaciones -ligado a control periconcepcional-, aborto, macrosomía, RCIU, muerte fetal).</li>
+                                <li>Requiere manejo especializado idealmente <strong class="text-lime-300">preconcepcional</strong>.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-emerald-300">Diabetes Mellitus Gestacional (DMG)</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
+                                <li>Intolerancia a la glucosa que inicia o se diagnostica <strong class="text-yellow-300">durante</strong> el embarazo (usualmente 2º/3er trimestre).</li>
+                                <li>Causada por resistencia a la insulina inducida por hormonas del embarazo.</li>
+                                <li>Puede ser difícil diferenciar de DM2 preexistente no diagnosticada si se detecta <strong class="text-lime-300">temprano</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button class="info-button focus:ring-lime-400" data-target="info-riesgo">
+                    <span class="text-lg font-semibold text-lime-300">📊 Evaluación Inicial y Riesgo</span>
+                </button>
+                <div id="info-riesgo" class="info-section border-lime-400">
+                    <h3 class="font-bold text-xl mb-3 text-lime-300">Primer Visita Prenatal: Estratificación</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li><strong class="text-violet-300">Identificar DMPG:</strong> Preguntar por diagnóstico previo de DM1/DM2.</li>
+                        <li><strong class="text-emerald-300">Evaluar Riesgo de DMG (si no hay DMPG):</strong>
+                            <ul class="list-disc list-inside ml-5 mt-1 space-y-1">
+                                <li><strong class="text-red-400">Alto Riesgo:</strong> IMC ≥ 25 (≥ 23 asiáticas) + ≥1 factor adicional (DMG previa, familiar 1er grado con DM, macrosomía previa ≥4kg, SOP, HTA, ECV, etnia de riesgo, acantosis nigricans, HbA1c ≥ 5.7%, etc.).</li>
+                                <li><strong class="text-sky-300">Riesgo Promedio:</strong> No cumple criterios de alto riesgo.</li>
+                            </ul>
+                        </li>
+                         <li>La estratificación determina el <strong class="text-yellow-300">momento</strong> del cribado.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <button class="info-button focus:ring-violet-400" data-target="info-cribado">
+                    <span class="text-lg font-semibold text-violet-300">🧪 Cribado y Diagnóstico DMG</span>
+                </button>
+                <div id="info-cribado" class="info-section border-violet-400">
+                    <h3 class="font-bold text-xl mb-3 text-violet-300">¿Cómo y Cuándo Realizar el Cribado?</h3>
+                     <div class="space-y-4">
+                         <div>
+                            <h4 class="font-semibold text-lg text-red-400">Pacientes de Alto Riesgo</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
+                                <li><strong class="text-yellow-300">Cribado Temprano (1ª visita):</strong>
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>HbA1c (≥6.5% = DM manifiesta).</li>
+                                        <li>Glucosa Ayunas (GPA ≥126 mg/dL = DM manifiesta).</li>
+                                        <li>Glucosa Azar (≥200 + síntomas = DM manifiesta).</li>
+                                        <li>Alternativa: PTOG 50g/1h (O'Sullivan). Si alta (≥130-140) ➡️ PTOG 100g/3h.</li>
+                                    </ul>
+                                </li>
+                                 <li>Si PTOG 100g/3h temprana anormal (≥2 valores altos) = <strong class="text-emerald-300">DMG diagnosticada</strong>.</li>
+                                 <li>Si cribado temprano negativo ➡️ <strong class="text-yellow-300">Repetir cribado 24-28 sem</strong> (usualmente directo a PTOG 100g/3h).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-sky-300">Pacientes de Riesgo Promedio</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
+                                <li><strong class="text-yellow-300">Cribado Universal (24-28 sem):</strong></li>
+                                <li><strong class="text-amber-300">Estrategia 2 Pasos (Preferida):</strong>
+                                    <ol class="list-decimal list-inside ml-5 mt-1">
+                                        <li><strong class="text-gray-400">Paso 1:</strong> PTOG 50g/1h (O'Sullivan, no ayuno). Umbral varía (130-140 mg/dL).</li>
+                                        <li><strong class="text-gray-400">Paso 2 (si Paso 1 +):</strong> PTOG 100g/3h (ayuno 8h). Mediciones 0, 1, 2, 3h.</li>
+                                    </ol>
+                                </li>
+                                <li><strong class="text-emerald-300">Diagnóstico DMG (2 Pasos):</strong> ≥ 2 valores elevados en PTOG 100g/3h.
+                                    <ul class="list-disc list-inside ml-5 text-sm text-gray-400">
+                                        <li>Criterios Carpenter/Coustan: Ayunas ≥95, 1h ≥180, 2h ≥155, 3h ≥140.</li>
+                                        <li>Criterios NDDG: Ayunas ≥105, 1h ≥190, 2h ≥165, 3h ≥145.</li>
+                                    </ul>
+                                </li>
+                                <li><strong class="text-gray-400">Perla Clínica:</strong> 1 valor elevado = Intolerancia a la glucosa (mayor riesgo, seguimiento estrecho).</li>
+                                <li><strong class="text-amber-300">Estrategia 1 Paso (Alternativa):</strong> PTOG 75g/2h (ayuno). ≥ 1 valor elevado (IADPSG: Ayunas ≥92, 1h ≥180, 2h ≥153).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-gray-700 rounded-md">
+                         <h4 class="font-semibold text-lg text-orange-400">⚠️ Diabetes Manifiesta en Embarazo</h4>
+                         <p class="text-gray-300 mt-1">Si en cribado temprano se cumplen criterios estándar de DM (HbA1c ≥6.5%, GPA ≥126, Glucosa 2h post-75g ≥200), se diagnostica como <strong class="text-orange-400">diabetes manifiesta</strong> (probablemente DMPG no conocida) y se maneja como tal.</p>
+                    </div>
+                </div>
+            </div>
+
+             <div>
+                <button class="info-button focus:ring-emerald-400" data-target="info-manejo">
+                    <span class="text-lg font-semibold text-emerald-300">🍎🚶‍♀️ Manejo de la DMG</span>
+                </button>
+                <div id="info-manejo" class="info-section border-emerald-400">
+                    <h3 class="font-bold text-xl mb-3 text-emerald-300">Objetivo: Control Glucémico Óptimo</h3>
+                     <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg text-sky-300">Pilares Iniciales (Terapia Médico-Nutricional y Estilo de Vida)</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
+                                <li>🥦 Asesoramiento nutricional por experto (control de carbohidratos).</li>
+                                <li>🏃‍♀️ Ejercicio regular y seguro (ej. caminar 30 min/día).</li>
+                                <li>🩸 Educación en automonitorización de glucosa capilar (AMGC).</li>
+                                <li><strong class="text-yellow-300">Automonitorización (AMGC):</strong>
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Medir en ayunas y postprandial (1 o 2h post-inicio de comidas).</li>
+                                        <li><strong class="text-amber-300">Objetivos Comunes:</strong> Ayunas < 95, 1h postprandial < 140, 2h postprandial < 120 mg/dL.</li>
+                                        <li>Revisión médica frecuente de registros (cada 1-2 sem).</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-violet-300">Clasificación y Farmacoterapia</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
+                                <li><strong class="text-cyan-300">DMG tipo A1 (o DMG1):</strong> Controlada <strong class="text-lime-300">solo</strong> con dieta y ejercicio.</li>
+                                <li><strong class="text-orange-400">DMG tipo A2 (o DMG2):</strong> No alcanza objetivos con estilo de vida ➡️ Requiere <strong class="text-red-400">farmacoterapia</strong>.
+                                    <ul class="list-disc list-inside ml-5 mt-1 space-y-1">
+                                        <li><strong class="text-emerald-300">1ª Línea: Insulina</strong> (preferida: segura, eficaz, no cruza placenta significativamente). Varios esquemas disponibles.</li>
+                                        <li><strong class="text-sky-300">2ª Línea: Metformina</strong> (opción oral razonable si rechazo/dificultad con insulina; cruza placenta, estudios a largo plazo mayormente tranquilizadores).</li>
+                                        <li><strong class="text-gray-500">(Gliburida (sulfonilurea) ya no se recomienda ampliamente por riesgo de hipoglucemia neonatal).</strong></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button class="info-button focus:ring-sky-400" data-target="info-resumen">
+                    <span class="text-lg font-semibold text-sky-300">📝 Resumen Práctico</span>
+                </button>
+                <div id="info-resumen" class="info-section border-sky-400">
+                    <h3 class="font-bold text-xl mb-3 text-sky-300">Take-Home Messages</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300">
+                        <li>Diabetes en embarazo aumenta riesgos maternos (<strong class="text-amber-300">preeclampsia, cesárea</strong>) y feto-neonatales (<strong class="text-yellow-300">macrosomía, distocia, hipoglucemia</strong>).</li>
+                        <li>Diferenciar <strong class="text-violet-300">DMPG</strong> (previa) de <strong class="text-emerald-300">DMG</strong> (gestacional) es crucial; DMPG tiene > riesgo basal.</li>
+                        <li><strong class="text-yellow-300">Todas</strong> las embarazadas sin DM conocida requieren cribado para DMG (temprano si <strong class="text-red-400">alto riesgo</strong>, 24-28 sem si <strong class="text-sky-300">riesgo promedio</strong>).</li>
+                        <li>Método común <strong class="text-violet-300">(2 pasos):</strong> 50g/1h ➡️ si (+) ➡️ 100g/3h. Diagnóstico con ≥2 valores altos en 3h.</li>
+                        <li>Manejo inicial DMG: <strong class="text-cyan-300">Dieta, ejercicio, automonitorización</strong>.</li>
+                        <li>Si metas no alcanzadas (DMG A2): <strong class="text-red-400">Farmacoterapia</strong> (<strong class="text-emerald-300">Insulina</strong> 1ª línea, <strong class="text-sky-300">Metformina</strong> alternativa).</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Selecciona todos los botones que abren secciones de información
+        const buttons = document.querySelectorAll('.info-button');
+        // Selecciona todas las secciones de contenido
+        const sections = document.querySelectorAll('.info-section');
+
+        // Añade un event listener a cada botón
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Obtiene el ID de la sección objetivo desde el atributo 'data-target'
+                const targetId = button.getAttribute('data-target');
+                const targetSection = document.getElementById(targetId);
+
+                // Comprueba si la sección clickeada ya está activa
+                const isAlreadyActive = targetSection.classList.contains('active');
+
+                // Cierra todas las secciones activas ANTES de abrir la nueva (o la misma si se vuelve a clickear)
+                sections.forEach(section => {
+                    // Solo quita 'active' si NO es la sección que se acaba de clickear
+                    if (section.id !== targetId || isAlreadyActive) {
+                         section.classList.remove('active');
+                    }
+                });
+
+                // Si la sección clickeada NO estaba activa, ábrela (toggle on)
+                if (!isAlreadyActive) {
+                    targetSection.classList.add('active');
+                }
+                // Si ya estaba activa, el bucle anterior ya la cerró (toggle off)
+            });
+        });
+    </script>
+
+</body>
+</html>
+</span>
+                    </div>
+                </article>
+
+                <article class="mb-6 p-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 hover:bg-gray-600">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-400">Infografía: Embarazo Ecópico</h3>
+                     <p class="text-sm text-gray-300 mb-3">Diagnóstico y Tratamiento del Embarazo Ectópico</p>
+                     <div class="bg-gray-600 p-6 rounded text-center text-gray-400 min-h-[150px] flex items-center justify-center">
                         <span><!DOCTYPE html>
 <html lang="es">
 <head>
@@ -666,381 +896,58 @@
 </span>
                     </div>
                 </article>
-            
-            <article class="mb-6 p-5">
-                     <h3 class="text-lg font-semibold mb-2">Infografía Diabetes Gestacional</h3>
-                     <p class="text-sm mb-3">Diagnóstico y Tratamiento de la<strong class="key-concept">Diabetes Gestacional</strong>.</p>
-                     <div class="placeholder-content">
-                        <span><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infografía: Diabetes y Embarazo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Estilos personalizados */
-        body {
-            font-family: 'Inter', sans-serif; /* Fuente Inter */
-            background-color: #111827; /* Fondo oscuro más profundo */
-            color: #d1d5db; /* Color de texto claro por defecto (gris claro) */
-        }
-        .info-section {
-            background-color: #1f2937; /* Fondo ligeramente más claro para secciones (gris oscuro) */
-            border-left: 4px solid; /* Borde lateral para destacar */
-            transition: max-height 0.5s ease-out, opacity 0.5s ease-out, padding 0.3s ease, margin-top 0.3s ease; /* Transición suave */
-            overflow: hidden; /* Ocultar contenido que excede max-height */
-            max-height: 0; /* Oculto por defecto */
-            opacity: 0; /* Opaco por defecto */
-            padding: 0 1rem; /* Padding horizontal inicial para evitar saltos */
-            margin-top: 0;
-            border-radius: 0 0.5rem 0.5rem 0; /* Bordes redondeados solo en el lado derecho */
-        }
-        .info-section.active {
-            max-height: 1500px; /* Altura máxima suficiente para el contenido */
-            opacity: 1; /* Hacer visible */
-            padding: 1rem; /* Añadir padding completo cuando está activo */
-            margin-top: 0.5rem; /* Espacio superior cuando está activo */
-        }
-        /* Colores brillantes para bordes y texto (Sin Rosa) */
-        .border-cyan-400 { border-color: #22d3ee; }
-        .text-cyan-300 { color: #67e8f9; }
-        .border-amber-400 { border-color: #fbbf24; } /* Naranja/Ámbar */
-        .text-amber-300 { color: #fcd34d; } /* Naranja/Ámbar */
-        .border-lime-400 { border-color: #a3e635; } /* Verde Lima */
-        .text-lime-300 { color: #bef264; } /* Verde Lima */
-        .border-violet-400 { border-color: #a78bfa; } /* Violeta */
-        .text-violet-300 { color: #c4b5fd; } /* Violeta */
-        .border-emerald-400 { border-color: #34d399; } /* Esmeralda */
-        .text-emerald-300 { color: #6ee7b7; } /* Esmeralda */
-        .border-sky-400 { border-color: #38bdf8; } /* Azul Cielo */
-        .text-sky-300 { color: #7dd3fc; } /* Azul Cielo */
-        .text-red-400 { color: #f87171; } /* Rojo para alertas */
-        .text-gray-400 { color: #9ca3af; } /* Gris para texto secundario */
-        .text-gray-500 { color: #6b7280; } /* Gris más oscuro para notas */
-        .text-yellow-300 { color: #fde047; } /* Amarillo para énfasis */
-        .text-orange-400 { color: #fb923c; } /* Naranja para énfasis */
 
-
-        /* Estilo de botones */
-        .info-button {
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Sombra más definida */
-            background-color: #374151; /* Gris medio oscuro para botones */
-            color: #e5e7eb; /* Texto claro para botones */
-            border-radius: 0.5rem; /* Bordes redondeados */
-            text-align: left;
-            padding: 1rem;
-            width: 100%;
-        }
-        .info-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-            background-color: #4b5563; /* Ligeramente más claro al pasar el mouse */
-        }
-        .info-button:focus {
-            outline: none;
-            ring: 3px; /* Anillo de foco más grueso */
-            ring-offset: 2px;
-            ring-offset-color: #111827; /* Color de fondo para el offset */
-        }
-         /* Anillos de foco con colores correspondientes (Sin Rosa) */
-        .focus\:ring-cyan-400:focus { --tw-ring-color: #22d3ee; }
-        .focus\:ring-amber-400:focus { --tw-ring-color: #fbbf24; }
-        .focus\:ring-lime-400:focus { --tw-ring-color: #a3e635; }
-        .focus\:ring-violet-400:focus { --tw-ring-color: #a78bfa; }
-        .focus\:ring-emerald-400:focus { --tw-ring-color: #34d399; }
-        .focus\:ring-sky-400:focus { --tw-ring-color: #38bdf8; }
-
-        /* Estilos responsivos */
-        @media (max-width: 768px) {
-            .md\:grid-cols-2 {
-                grid-template-columns: repeat(1, minmax(0, 1fr)); /* Una columna en pantallas pequeñas */
-            }
-            .md\:col-span-2 {
-                 grid-column: span 1 / span 1; /* Asegurar que las secciones ocupen una columna en móvil */
-            }
-            body {
-                padding: 0.5rem; /* Menos padding en móvil */
-            }
-            .container-wrapper {
-                 padding: 1rem; /* Padding interno del contenedor principal */
-            }
-        }
-    </style>
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="p-4 md:p-8">
-
-    <div class="container-wrapper max-w-4xl mx-auto bg-gray-800 rounded-lg shadow-xl p-6">
-        <h1 class="text-3xl font-bold text-center mb-8 text-cyan-300">🤰 Diabetes y Embarazo: Puntos Clave</h1>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <button class="info-button focus:ring-cyan-400" data-target="info-intro">
-                    <span class="text-lg font-semibold text-cyan-300">💥 Introducción e Impacto</span>
-                </button>
-                <div id="info-intro" class="info-section border-cyan-400">
-                    <h3 class="font-bold text-xl mb-3 text-cyan-300">Impacto de la Diabetes en el Embarazo</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li>Complicación médica frecuente en el embarazo.</li>
-                        <li><strong class="text-amber-300">Riesgos Maternos:</strong> Aumenta riesgo de preeclampsia y cesárea.</li>
-                        <li><strong class="text-sky-300">Riesgos Fetales/Neonatales:</strong>
-                            <ul class="list-disc list-inside ml-5 mt-1 space-y-1">
-                                <li>Hiperglucemia materna ➡️ Hiperinsulinemia fetal ➡️ <strong class="text-yellow-300">Macrosomía</strong> (crecimiento excesivo, grasa en hombros/tronco).</li>
-                                <li>Macrosomía ➡️ Riesgo de distocia de hombros y trauma obstétrico.</li>
-                                <li>Post-parto (pinzamiento cordón) ➡️ Cese de glucosa materna + hiperinsulinemia neonatal persistente ➡️ <strong class="text-red-400">Hipoglucemia neonatal</strong> (requiere manejo inmediato).</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div>
-                <button class="info-button focus:ring-amber-400" data-target="info-tipos">
-                    <span class="text-lg font-semibold text-amber-300">🩺 Tipos de Diabetes</span>
-                </button>
-                <div id="info-tipos" class="info-section border-amber-400">
-                    <h3 class="font-bold text-xl mb-3 text-amber-300">Distinción Clave</h3>
-                     <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-lg text-violet-300">Diabetes Mellitus Pregestacional (DMPG)</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
-                                <li>Diagnóstico de DM1 o DM2 <strong class="text-yellow-300">antes</strong> del embarazo.</li>
-                                <li>Mayor riesgo basal materno (retinopatía, nefropatía, cetoacidosis, preeclampsia).</li>
-                                <li>Mayor riesgo fetal (malformaciones -ligado a control periconcepcional-, aborto, macrosomía, RCIU, muerte fetal).</li>
-                                <li>Requiere manejo especializado idealmente <strong class="text-lime-300">preconcepcional</strong>.</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-lg text-emerald-300">Diabetes Mellitus Gestacional (DMG)</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
-                                <li>Intolerancia a la glucosa que inicia o se diagnostica <strong class="text-yellow-300">durante</strong> el embarazo (usualmente 2º/3er trimestre).</li>
-                                <li>Causada por resistencia a la insulina inducida por hormonas del embarazo.</li>
-                                <li>Puede ser difícil diferenciar de DM2 preexistente no diagnosticada si se detecta <strong class="text-lime-300">temprano</strong>.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <button class="info-button focus:ring-lime-400" data-target="info-riesgo">
-                    <span class="text-lg font-semibold text-lime-300">📊 Evaluación Inicial y Riesgo</span>
-                </button>
-                <div id="info-riesgo" class="info-section border-lime-400">
-                    <h3 class="font-bold text-xl mb-3 text-lime-300">Primer Visita Prenatal: Estratificación</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li><strong class="text-violet-300">Identificar DMPG:</strong> Preguntar por diagnóstico previo de DM1/DM2.</li>
-                        <li><strong class="text-emerald-300">Evaluar Riesgo de DMG (si no hay DMPG):</strong>
-                            <ul class="list-disc list-inside ml-5 mt-1 space-y-1">
-                                <li><strong class="text-red-400">Alto Riesgo:</strong> IMC ≥ 25 (≥ 23 asiáticas) + ≥1 factor adicional (DMG previa, familiar 1er grado con DM, macrosomía previa ≥4kg, SOP, HTA, ECV, etnia de riesgo, acantosis nigricans, HbA1c ≥ 5.7%, etc.).</li>
-                                <li><strong class="text-sky-300">Riesgo Promedio:</strong> No cumple criterios de alto riesgo.</li>
-                            </ul>
-                        </li>
-                         <li>La estratificación determina el <strong class="text-yellow-300">momento</strong> del cribado.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div>
-                <button class="info-button focus:ring-violet-400" data-target="info-cribado">
-                    <span class="text-lg font-semibold text-violet-300">🧪 Cribado y Diagnóstico DMG</span>
-                </button>
-                <div id="info-cribado" class="info-section border-violet-400">
-                    <h3 class="font-bold text-xl mb-3 text-violet-300">¿Cómo y Cuándo Realizar el Cribado?</h3>
-                     <div class="space-y-4">
-                         <div>
-                            <h4 class="font-semibold text-lg text-red-400">Pacientes de Alto Riesgo</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
-                                <li><strong class="text-yellow-300">Cribado Temprano (1ª visita):</strong>
-                                    <ul class="list-disc list-inside ml-5 mt-1">
-                                        <li>HbA1c (≥6.5% = DM manifiesta).</li>
-                                        <li>Glucosa Ayunas (GPA ≥126 mg/dL = DM manifiesta).</li>
-                                        <li>Glucosa Azar (≥200 + síntomas = DM manifiesta).</li>
-                                        <li>Alternativa: PTOG 50g/1h (O'Sullivan). Si alta (≥130-140) ➡️ PTOG 100g/3h.</li>
-                                    </ul>
-                                </li>
-                                 <li>Si PTOG 100g/3h temprana anormal (≥2 valores altos) = <strong class="text-emerald-300">DMG diagnosticada</strong>.</li>
-                                 <li>Si cribado temprano negativo ➡️ <strong class="text-yellow-300">Repetir cribado 24-28 sem</strong> (usualmente directo a PTOG 100g/3h).</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-lg text-sky-300">Pacientes de Riesgo Promedio</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
-                                <li><strong class="text-yellow-300">Cribado Universal (24-28 sem):</strong></li>
-                                <li><strong class="text-amber-300">Estrategia 2 Pasos (Preferida):</strong>
-                                    <ol class="list-decimal list-inside ml-5 mt-1">
-                                        <li><strong class="text-gray-400">Paso 1:</strong> PTOG 50g/1h (O'Sullivan, no ayuno). Umbral varía (130-140 mg/dL).</li>
-                                        <li><strong class="text-gray-400">Paso 2 (si Paso 1 +):</strong> PTOG 100g/3h (ayuno 8h). Mediciones 0, 1, 2, 3h.</li>
-                                    </ol>
-                                </li>
-                                <li><strong class="text-emerald-300">Diagnóstico DMG (2 Pasos):</strong> ≥ 2 valores elevados en PTOG 100g/3h.
-                                    <ul class="list-disc list-inside ml-5 text-sm text-gray-400">
-                                        <li>Criterios Carpenter/Coustan: Ayunas ≥95, 1h ≥180, 2h ≥155, 3h ≥140.</li>
-                                        <li>Criterios NDDG: Ayunas ≥105, 1h ≥190, 2h ≥165, 3h ≥145.</li>
-                                    </ul>
-                                </li>
-                                <li><strong class="text-gray-400">Perla Clínica:</strong> 1 valor elevado = Intolerancia a la glucosa (mayor riesgo, seguimiento estrecho).</li>
-                                <li><strong class="text-amber-300">Estrategia 1 Paso (Alternativa):</strong> PTOG 75g/2h (ayuno). ≥ 1 valor elevado (IADPSG: Ayunas ≥92, 1h ≥180, 2h ≥153).</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="mt-4 p-3 bg-gray-700 rounded-md">
-                         <h4 class="font-semibold text-lg text-orange-400">⚠️ Diabetes Manifiesta en Embarazo</h4>
-                         <p class="text-gray-300 mt-1">Si en cribado temprano se cumplen criterios estándar de DM (HbA1c ≥6.5%, GPA ≥126, Glucosa 2h post-75g ≥200), se diagnostica como <strong class="text-orange-400">diabetes manifiesta</strong> (probablemente DMPG no conocida) y se maneja como tal.</p>
-                    </div>
-                </div>
-            </div>
-
-             <div>
-                <button class="info-button focus:ring-emerald-400" data-target="info-manejo">
-                    <span class="text-lg font-semibold text-emerald-300">🍎🚶‍♀️ Manejo de la DMG</span>
-                </button>
-                <div id="info-manejo" class="info-section border-emerald-400">
-                    <h3 class="font-bold text-xl mb-3 text-emerald-300">Objetivo: Control Glucémico Óptimo</h3>
-                     <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-lg text-sky-300">Pilares Iniciales (Terapia Médico-Nutricional y Estilo de Vida)</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
-                                <li>🥦 Asesoramiento nutricional por experto (control de carbohidratos).</li>
-                                <li>🏃‍♀️ Ejercicio regular y seguro (ej. caminar 30 min/día).</li>
-                                <li>🩸 Educación en automonitorización de glucosa capilar (AMGC).</li>
-                                <li><strong class="text-yellow-300">Automonitorización (AMGC):</strong>
-                                    <ul class="list-disc list-inside ml-5 mt-1">
-                                        <li>Medir en ayunas y postprandial (1 o 2h post-inicio de comidas).</li>
-                                        <li><strong class="text-amber-300">Objetivos Comunes:</strong> Ayunas < 95, 1h postprandial < 140, 2h postprandial < 120 mg/dL.</li>
-                                        <li>Revisión médica frecuente de registros (cada 1-2 sem).</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-lg text-violet-300">Clasificación y Farmacoterapia</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-300 mt-1">
-                                <li><strong class="text-cyan-300">DMG tipo A1 (o DMG1):</strong> Controlada <strong class="text-lime-300">solo</strong> con dieta y ejercicio.</li>
-                                <li><strong class="text-orange-400">DMG tipo A2 (o DMG2):</strong> No alcanza objetivos con estilo de vida ➡️ Requiere <strong class="text-red-400">farmacoterapia</strong>.
-                                    <ul class="list-disc list-inside ml-5 mt-1 space-y-1">
-                                        <li><strong class="text-emerald-300">1ª Línea: Insulina</strong> (preferida: segura, eficaz, no cruza placenta significativamente). Varios esquemas disponibles.</li>
-                                        <li><strong class="text-sky-300">2ª Línea: Metformina</strong> (opción oral razonable si rechazo/dificultad con insulina; cruza placenta, estudios a largo plazo mayormente tranquilizadores).</li>
-                                        <li><strong class="text-gray-500">(Gliburida (sulfonilurea) ya no se recomienda ampliamente por riesgo de hipoglucemia neonatal).</strong></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <button class="info-button focus:ring-sky-400" data-target="info-resumen">
-                    <span class="text-lg font-semibold text-sky-300">📝 Resumen Práctico</span>
-                </button>
-                <div id="info-resumen" class="info-section border-sky-400">
-                    <h3 class="font-bold text-xl mb-3 text-sky-300">Take-Home Messages</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-300">
-                        <li>Diabetes en embarazo aumenta riesgos maternos (<strong class="text-amber-300">preeclampsia, cesárea</strong>) y feto-neonatales (<strong class="text-yellow-300">macrosomía, distocia, hipoglucemia</strong>).</li>
-                        <li>Diferenciar <strong class="text-violet-300">DMPG</strong> (previa) de <strong class="text-emerald-300">DMG</strong> (gestacional) es crucial; DMPG tiene > riesgo basal.</li>
-                        <li><strong class="text-yellow-300">Todas</strong> las embarazadas sin DM conocida requieren cribado para DMG (temprano si <strong class="text-red-400">alto riesgo</strong>, 24-28 sem si <strong class="text-sky-300">riesgo promedio</strong>).</li>
-                        <li>Método común <strong class="text-violet-300">(2 pasos):</strong> 50g/1h ➡️ si (+) ➡️ 100g/3h. Diagnóstico con ≥2 valores altos en 3h.</li>
-                        <li>Manejo inicial DMG: <strong class="text-cyan-300">Dieta, ejercicio, automonitorización</strong>.</li>
-                        <li>Si metas no alcanzadas (DMG A2): <strong class="text-red-400">Farmacoterapia</strong> (<strong class="text-emerald-300">Insulina</strong> 1ª línea, <strong class="text-sky-300">Metformina</strong> alternativa).</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        // Selecciona todos los botones que abren secciones de información
-        const buttons = document.querySelectorAll('.info-button');
-        // Selecciona todas las secciones de contenido
-        const sections = document.querySelectorAll('.info-section');
-
-        // Añade un event listener a cada botón
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Obtiene el ID de la sección objetivo desde el atributo 'data-target'
-                const targetId = button.getAttribute('data-target');
-                const targetSection = document.getElementById(targetId);
-
-                // Comprueba si la sección clickeada ya está activa
-                const isAlreadyActive = targetSection.classList.contains('active');
-
-                // Cierra todas las secciones activas ANTES de abrir la nueva (o la misma si se vuelve a clickear)
-                sections.forEach(section => {
-                    // Solo quita 'active' si NO es la sección que se acaba de clickear
-                    if (section.id !== targetId || isAlreadyActive) {
-                         section.classList.remove('active');
-                    }
-                });
-
-                // Si la sección clickeada NO estaba activa, ábrela (toggle on)
-                if (!isAlreadyActive) {
-                    targetSection.classList.add('active');
-                }
-                // Si ya estaba activa, el bucle anterior ya la cerró (toggle off)
-            });
-        });
-    </script>
-
-</body>
-</html>
-</span>
-                    </div>
-                </article>
-
-                <article class="mb-6 p-5">
-                     <h3 class="text-lg font-semibold mb-2">Infografía: Interpretación del EKG</h3>
-                     <p class="text-sm mb-3">Pasos clave y patrones comunes en la interpretación <strong class="key-concept">electrocardiográfica</strong>.</p>
-                     <div class="placeholder-content">
+                <article class="mb-6 p-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 hover:bg-gray-600">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-400">Infografía: Interpretación del EKG</h3>
+                     <p class="text-sm text-gray-300 mb-3">Pasos clave y patrones comunes en la interpretación electrocardiográfica.</p>
+                     <div class="bg-gray-600 p-6 rounded text-center text-gray-400 min-h-[150px] flex items-center justify-center">
                         <span>[Contenido Interactivo de la Infografía 2 Aquí]</span>
                     </div>
                 </article>
-            </div>
+
+                <article class="mb-6 p-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 hover:bg-gray-600">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-400">Infografía: Interpretación del EKG</h3>
+                     <p class="text-sm text-gray-300 mb-3">Pasos clave y patrones comunes en la interpretación electrocardiográfica.</p>
+                     <div class="bg-gray-600 p-6 rounded text-center text-gray-400 min-h-[150px] flex items-center justify-center">
+                        <span>[Contenido Interactivo de la Infografía 2 Aquí]</span>
+                    </div>
+                </article>
+
+                </div>
         </details>
 
-        <details class="details-container group">
-             <summary class="text-xl md:text-2xl">
+        <details class="bg-blue-900 text-white rounded-lg shadow-md overflow-hidden group">
+            <summary class="text-xl md:text-2xl font-bold p-4 md:p-5 select-none">
                 Casos Clínicos Interactivos
             </summary>
-             <div class="details-content p-4 md:p-6">
-                <article class="mb-6 p-5">
-                    <h3 class="text-lg font-semibold mb-2">Caso Clínico: Dolor Torácico Agudo</h3>
-                    <p class="text-sm mb-3">Paciente masculino de 55 años con <strong class="key-concept">dolor precordial opresivo</strong>. Evalúa y maneja el caso.</p>
-                    <div class="placeholder-content">
+             <div class="p-4 md:p-6 bg-gray-800 text-gray-200">
+                 <article class="mb-6 p-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 hover:bg-gray-600">
+                     <h3 class="text-lg font-semibold mb-2 text-blue-400">Caso Clínico: Dolor Torácico Agudo</h3>
+                     <p class="text-sm text-gray-300 mb-3">Paciente masculino de 55 años con dolor precordial opresivo. Evalúa y maneja el caso.</p>
+                     <div class="bg-gray-600 p-6 rounded text-center text-gray-400 min-h-[150px] flex items-center justify-center">
                         <span>[Contenido Interactivo del Caso Clínico 1 Aquí]</span>
                     </div>
                 </article>
 
-                <article class="mb-6 p-5">
-                     <h3 class="text-lg font-semibold mb-2">Caso Clínico: Paciente con Disnea</h3>
-                     <p class="text-sm mb-3">Mujer de 70 años con <strong class="key-concept">disnea progresiva</strong>. Diagnóstico diferencial y abordaje inicial.</p>
-                     <div class="placeholder-content">
+                <article class="mb-6 p-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 hover:bg-gray-600">
+                     <h3 class="text-lg font-semibold mb-2 text-blue-400">Caso Clínico: Paciente con Disnea</h3>
+                     <p class="text-sm text-gray-300 mb-3">Mujer de 70 años con disnea progresiva. Diagnóstico diferencial y abordaje inicial.</p>
+                     <div class="bg-gray-600 p-6 rounded text-center text-gray-400 min-h-[150px] flex items-center justify-center">
                         <span>[Contenido Interactivo del Caso Clínico 2 Aquí]</span>
                     </div>
                 </article>
-            </div>
+
+                 </div>
         </details>
 
     </main>
 
-    <footer class="mt-12 text-center text-xs md:text-sm py-4">
+    <footer class="mt-12 text-center text-gray-400 text-xs md:text-sm py-4">
         <p>&copy; <span id="year"></span> Dr. Carlos Nader.</p>
     </footer>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Script para funcionalidad de infografía (si es necesario)
-        function toggleSection(sectionId) {
-             console.log("Toggle section interna:", sectionId);
-             // Implementar lógica de la infografía si se pega directamente.
-        }
     </script>
 
 </body>
