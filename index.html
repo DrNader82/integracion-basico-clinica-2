@@ -194,7 +194,467 @@
                      <h3 class="text-lg font-semibold mb-2">Infografía: Embarazo Ectópico</h3>
                      <p class="text-sm mb-3">Resumen interactivo del tema <strong class="key-concept">Embarazo Ectópico</strong>.</p>
                     <div id="infografiaEctopicoContainer" class="placeholder-content">
-                         <span>[Aquí se mostraría la Infografía de Embarazo Ectópico]</span>
+                         <span><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Embarazo Ectópico (Modo Oscuro)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- Estilos Personalizados Modo Oscuro --- */
+        :root {
+            /* Paleta Dark Mode */
+            --dm-bg-body: #111827; /* Gris muy oscuro / Azul noche */
+            --dm-bg-container: #1f2937; /* Gris oscuro */
+            --dm-bg-section-base: #2d3748; /* Gris medio oscuro para botones/secciones */
+            --dm-bg-section-hover: #374151; /* Gris un poco más claro para hover */
+            --dm-text-primary: #e5e7eb; /* Gris muy claro / Casi blanco */
+            --dm-text-secondary: #9ca3af; /* Gris medio */
+            --dm-text-title: #5eead4; /* Teal brillante para título principal */
+            --dm-border-color: #4b5563; /* Gris oscuro para bordes */
+            --dm-key-concept: #fde047; /* Amarillo brillante */
+
+            /* Colores de acento brillantes para secciones (adaptados de los originales) */
+            --dm-accent-blue: #60a5fa;
+            --dm-accent-amber: #fbbf24;
+            --dm-accent-red: #f87171;
+            --dm-accent-green: #34d399;
+            --dm-accent-orange: #fb923c;
+            --dm-accent-gray: #9ca3af;
+            --dm-accent-purple: #a78bfa; /* Para tratamiento médico */
+            --dm-accent-teal: #2dd4bf; /* Para tratamiento qx */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dm-bg-body);
+            color: var(--dm-text-primary); /* Texto principal claro por defecto */
+        }
+
+        /* Contenedor principal */
+        .dark-container {
+             background-color: var(--dm-bg-container);
+             border-radius: 0.5rem; /* rounded-lg */
+             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+             padding: 1.5rem; /* p-6 */
+        }
+
+        /* Título principal */
+        .dark-title {
+            color: var(--dm-text-title);
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+
+        /* Botones desplegables */
+        .toggle-button {
+            background-color: var(--dm-bg-section-base);
+            width: 100%;
+            text-align: left;
+            padding: 1rem; /* p-4 */
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+        .toggle-button:hover {
+            background-color: var(--dm-bg-section-hover);
+        }
+        .toggle-button span:first-child { /* El texto del título */
+             font-weight: 600; /* font-semibold */
+             font-size: 1.25rem; /* text-xl */
+             /* El color se aplicará específicamente por sección */
+        }
+        .toggle-button .arrow-icon {
+            transition: transform 0.3s ease;
+            /* El color se aplicará específicamente por sección */
+        }
+        .toggle-button.open .arrow-icon {
+            transform: rotate(90deg);
+        }
+
+        /* Contenido desplegable */
+        .content-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out, border-color 0.5s ease-out;
+            padding: 0 1rem;
+            border-left: 3px solid transparent;
+            background-color: var(--dm-bg-body); /* Fondo base oscuro para contenido */
+            color: var(--dm-text-primary); /* Texto claro */
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+         .content-section p, .content-section li {
+             margin-bottom: 0.5rem; /* mb-2 o space-y-1 */
+         }
+         .content-section strong {
+             color: var(--dm-key-concept); /* Resaltado amarillo por defecto */
+             font-weight: 600;
+         }
+         /* Anular resaltado amarillo si ya tiene un color específico */
+         .content-section strong[class*="text-"] { color: inherit; }
+
+        .content-section.open {
+            max-height: 1500px;
+            padding: 1rem;
+            /* El color del borde se define específicamente */
+        }
+
+        /* Flechas de flujo */
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--dm-text-secondary); /* Gris medio */
+            margin: 1rem 0; /* Aumentar margen */
+            text-align: center;
+        }
+
+        /* --- Colores específicos por sección --- */
+
+        /* Definición (Azul) */
+        .section-definicion-btn span, .section-definicion-btn .arrow-icon { color: var(--dm-accent-blue); }
+        .section-definicion.open { border-left-color: var(--dm-accent-blue); }
+        .section-definicion strong { color: var(--dm-accent-blue); }
+
+        /* Riesgos (Ámbar/Amarillo) */
+        .section-riesgos-btn span, .section-riesgos-btn .arrow-icon { color: var(--dm-accent-amber); }
+        .section-riesgos.open { border-left-color: var(--dm-accent-amber); }
+        .section-riesgos strong { color: var(--dm-accent-amber); }
+        .section-riesgos .text-red-600 { color: var(--dm-accent-red) !important; } /* Mantener rojo para alerta */
+
+        /* Inestable (Rojo) */
+        .section-inestable-btn span, .section-inestable-btn .arrow-icon { color: var(--dm-accent-red); }
+        .section-inestable.open { border-left-color: var(--dm-accent-red); }
+        .section-inestable strong { color: var(--dm-key-concept); } /* Amarillo para claves */
+        .section-inestable .text-red-800, .section-inestable .text-red-500 { color: var(--dm-accent-red); } /* Rojo brillante */
+
+        /* Estable (Verde) */
+        .section-estable-btn span, .section-estable-btn .arrow-icon { color: var(--dm-accent-green); }
+        .section-estable.open { border-left-color: var(--dm-accent-green); }
+        .section-estable strong { color: var(--dm-key-concept); } /* Amarillo para claves */
+        .section-estable .text-green-500 { color: var(--dm-accent-green); }
+
+        /* Tratamiento (Naranja) */
+        .section-tratamiento-btn span, .section-tratamiento-btn .arrow-icon { color: var(--dm-accent-orange); }
+        .section-tratamiento.open { border-left-color: var(--dm-accent-orange); }
+        .section-tratamiento strong { color: var(--dm-key-concept); }
+        .section-tratamiento h3 { margin-bottom: 0.5rem; } /* mb-2 */
+        .section-tratamiento .text-purple-700 { color: var(--dm-accent-purple); } /* Tratamiento Médico */
+        .section-tratamiento .text-teal-700 { color: var(--dm-accent-teal); }   /* Tratamiento Qx */
+        .section-tratamiento .text-red-600 { color: var(--dm-accent-red); }     /* Contraindicaciones Abs */
+        .section-tratamiento .text-orange-600 { color: var(--dm-accent-orange); } /* Contraindicaciones Rel */
+        .section-tratamiento .text-red-700 { color: var(--dm-accent-red); }     /* Fracaso MTX */
+
+        /* Resumen (Gris) */
+        .section-resumen-btn span, .section-resumen-btn .arrow-icon { color: var(--dm-accent-gray); }
+        .section-resumen.open { border-left-color: var(--dm-accent-gray); }
+        .section-resumen strong { color: var(--dm-key-concept); }
+
+        /* Opciones de Tratamiento */
+        .treatment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .treatment-options > div { /* Cajas de tratamiento */
+            border: 1px solid var(--dm-border-color);
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 1rem; /* p-4 */
+            background-color: var(--dm-bg-section-base); /* Fondo gris oscuro */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow */
+        }
+        @media (min-width: 768px) {
+            .treatment-options { flex-direction: row; }
+            .treatment-options > div { flex: 1; }
+        }
+
+        /* Ajustes específicos de texto dentro de tratamiento */
+         .treatment-options ul { font-size: 0.875rem; } /* text-sm */
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto dark-container">
+
+        <h1 class="text-3xl font-bold text-center dark-title">🤰 Embarazo Ectópico: Guía Interactiva</h1>
+
+        <div class="mb-4 overflow-hidden border border-transparent rounded-lg"> {/* Borde transparente para que no se vea doble */}
+            <button class="toggle-button section-definicion-btn" onclick="toggleSection('definicion')">
+                <span>📖 Definición y Localizaciones</span>
+                <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
+            </button>
+            <div id="definicion" class="content-section section-definicion">
+                <p><strong>Definición:</strong> Implantación del blastocisto fuera de la cavidad endometrial del útero.</p>
+                <p><strong>Sitios Comunes (95-98%):</strong></p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Trompa de Falopio:</strong></li>
+                    <li class="ml-4">📍 Ampolla (más común)</li>
+                    <li class="ml-4">📍 Istmo</li>
+                    <li class="ml-4">📍 Intersticial (intramural)</li>
+                </ul>
+                <p><strong>Sitios Raros:</strong> Ovario, abdomen, cuello uterino, cicatriz de cesárea.</p>
+                <p><strong>Embarazo Heterotópico:</strong> Coexistencia de embarazo intrauterino y ectópico (raro, más frecuente con reproducción asistida).</p>
+            </div>
+        </div>
+
+        <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+        <div class="mb-4 overflow-hidden border border-transparent rounded-lg">
+            <button class="toggle-button section-riesgos-btn" onclick="toggleSection('riesgos')">
+                <span>⚠️ Factores de Riesgo</span>
+                <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
+            </button>
+            <div id="riesgos" class="content-section section-riesgos">
+                <p class="mb-3">Identificar estos factores puede aumentar la sospecha clínica:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1 text-sm md:text-base">
+                    <li><strong>🚨 Embarazo ectópico previo (¡El más importante!)</strong></li>
+                    <li><strong>🔥 Enfermedad Inflamatoria Pélvica (EIP)</strong></li>
+                    <li><strong>🔪 Cirugía tubárica o pélvica previa</strong> (adherencias, daño tubárico)</li>
+                    <li><strong>🌀 Uso de Dispositivo Intrauterino (DIU)</strong> (No causa ectópico, pero si ocurre embarazo con DIU, es más probable que sea ectópico)</li>
+                    <li><strong>🚬 Tabaquismo</strong></li>
+                    <li><strong>⏳ Edad materna avanzada</strong></li>
+                    <li><strong>🔬 Técnicas de reproducción asistida (TRA)</strong></li>
+                    <li><strong>🌸 Endometriosis</strong></li>
+                    <li><strong>🩹 Antecedente de apendicitis complicada</strong> (posibles adherencias)</li>
+                </ul>
+                <p class="mt-3 font-semibold">❗️ Importante: Aproximadamente el 50% de las pacientes con embarazo ectópico <strong class="text-red-600">NO tienen</strong> factores de riesgo identificables.</p> {/* Mantenemos el rojo aquí */}
+            </div>
+        </div>
+
+        <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+        <div class="mb-4 text-center">
+            <h2 class="text-2xl font-semibold" style="color: var(--dm-text-secondary);">🚨 Evaluación Inicial y Sospecha</h2>
+            <p style="color: var(--dm-text-secondary);">¿La paciente está estable o inestable?</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4">
+
+            <div class="flex-1 overflow-hidden border border-transparent rounded-lg">
+                <button class="toggle-button section-inestable-btn" onclick="toggleSection('inestable')">
+                    <span>💔 Paciente Inestable (Sospecha de Ruptura)</span>
+                    <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
+                </button>
+                <div id="inestable" class="content-section section-inestable">
+                    <p class="mb-2 text-red-800 font-bold">¡Emergencia Quirúrgica! 🚑</p>
+                    <p><strong>Objetivo:</strong> Estabilización y cirugía urgente.</p>
+                    <p><strong>Pasos Clave (CABCDE):</strong></p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li><strong>Circulación:</strong> 💧 2 vías IV gruesas, cristaloides, tipificar y cruzar sangre.</li>
+                        <li><strong>Vía Aérea y Respiración:</strong> 💨 Asegurar permeabilidad, O2, considerar intubación.</li>
+                        <li><strong>Monitorización:</strong> ❤️ Monitoreo continuo de signos vitales.</li>
+                        <li><strong>Evaluación Rápida:</strong></li>
+                        <li class="ml-4">🩺 Historia: Amenorrea, dolor súbito intenso, síncope, sangrado.</li>
+                        <li class="ml-4">🖐️ Examen Físico: Signos de shock, irritación peritoneal.</li>
+                        <li class="ml-4">🩸 Laboratorio Urgente: BH, β-hCG cuantitativa.</li>
+                        <li class="ml-4">🖥️ Ecografía (FAST/Bedside): Buscar líquido libre (hemoperitoneo), útero vacío.</li>
+                    </ul>
+                    <div class="flow-arrow text-red-500"><i class="fas fa-arrow-down"></i></div>
+                    <p><strong>Manejo Definitivo Urgente:</strong></p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>📞 Interconsulta Urgente a Ginecología.</li>
+                        <li><strong>🔪 Cirugía Inmediata:</strong></li>
+                        <li class="ml-4">Laparoscopia (preferida si estable dentro de la inestabilidad).</li>
+                        <li class="ml-4">Laparotomía (si shock severo o hemorragia masiva).</li>
+                        <li class="ml-4">Procedimiento: Salpingectomía (generalmente) o Salpingostomía (raro en ruptura).</li>
+                        <li>💉 Inmunoglobulina Anti-D si Rh negativa.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-hidden border border-transparent rounded-lg">
+                <button class="toggle-button section-estable-btn" onclick="toggleSection('estable')">
+                    <span>💚 Paciente Estable</span>
+                    <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
+                </button>
+                <div id="estable" class="content-section section-estable">
+                    <p><strong>Objetivo:</strong> Diagnóstico preciso y plan terapéutico.</p>
+                     <p><strong>Evaluación Detallada:</strong></p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li><strong>Historia Clínica:</strong></li>
+                        <li class="ml-4">❓ Síntomas: Amenorrea, sangrado vaginal (escaso, oscuro), dolor pélvico/abdominal (unilateral, sordo, cólico).</li>
+                        <li class="ml-4">⚠️ Factores de Riesgo: (Ver sección específica arriba).</li>
+                        <li><strong>Examen Físico:</strong></li>
+                        <li class="ml-4">🖐️ Dolor abdominal bajo, dolor a la movilización cervical ("signo del candelabro"), masa anexial. (¡Explorar con suavidad!).</li>
+                        <li><strong>Pruebas Diagnósticas:</strong></li>
+                        <li class="ml-4">🧪 <strong>β-hCG Cuantitativa:</strong> Fundamental.</li>
+                        <li class="ml-8">📈 Nivel Discriminatorio: Nivel de hCG (usualmente 1500-3500 mIU/mL) sobre el cual se DEBERÍA ver un saco gestacional intrauterino en Eco TV.</li>
+                        <li class="ml-8">⏳ Cinética de hCG: Duplicación cada 48-72h en embarazo intrauterino viable. Aumento lento, meseta o descenso en ectópico/no viable.</li>
+                        <li class="ml-4">🖥️ <strong>Ecografía Pélvica Transvaginal (Eco TV):</strong> Herramienta clave.</li>
+                        <li class="ml-8">✅ Buscar saco gestacional intrauterino (confirma embarazo intrauterino).</li>
+                        <li class="ml-8">❌ Buscar signos de ectópico: Masa anexial (anillo tubárico), saco gestacional extrauterino.</li>
+                        <li class="ml-8">💧 Evaluar líquido libre (hemoperitoneo).</li>
+                        <li class="ml-8">👻 Cuidado con el Saco Pseudogestacional (colección líquida intrauterina que NO es un embarazo).</li>
+                        <li class="ml-4">❓ <strong>Embarazo de Localización Desconocida (PUL):</strong> hCG positiva sin evidencia de embarazo intra o extrauterino en Eco TV. Requiere seguimiento seriado.</li>
+                    </ul>
+                     <div class="flow-arrow text-green-500"><i class="fas fa-arrow-down"></i></div>
+                     <p><strong>Interpretación y Confirmación:</strong></p>
+                     <ul class="list-disc list-inside ml-4 space-y-1">
+                         <li><strong>Si hCG &lt; 3500 y Eco TV no concluyente (PUL):</strong> Repetir hCG en 48h y Eco TV.</li>
+                         <li class="ml-4">📈 Aumento normal hCG ➔ Probable intrauterino temprano.</li>
+                         <li class="ml-4">📉 Aumento anormal o descenso hCG ➔ Sospecha ectópico o aborto.</li>
+                         <li><strong>Si hCG ≥ 3500 y Eco TV sin saco intrauterino:</strong> ALTA sospecha de ectópico.</li>
+                         <li><strong>Si Eco TV muestra masa anexial compatible:</strong> Diagnóstico CONFIRMADO (independiente de hCG).</li>
+                     </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+        <div class="mb-4 overflow-hidden border border-transparent rounded-lg">
+            <button class="toggle-button section-tratamiento-btn" onclick="toggleSection('tratamiento')">
+                <span>💊💉 Tratamiento (Paciente Estable, No Roto)</span>
+                <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
+            </button>
+            <div id="tratamiento" class="content-section section-tratamiento">
+                <p class="mb-4">La elección depende de criterios clínicos, hCG, Eco TV, contraindicaciones y preferencia informada.</p>
+                <div class="treatment-options">
+                    <div>
+                        <h3 class="text-lg font-semibold text-purple-700">1. Tratamiento Médico: Metotrexato (MTX) 💊</h3>
+                        <p><strong>Mecanismo:</strong> Antagonista del ácido fólico (inhibe ADN y proliferación celular).</p>
+                        <p><strong>Indicaciones Principales:</strong></p>
+                        <ul>
+                            <li>Estabilidad hemodinámica, sin ruptura.</li>
+                            <li>Deseo de preservar fertilidad.</li>
+                            <li>Capacidad de seguimiento estricto.</li>
+                            <li>Criterios específicos: hCG &lt; 5000 mIU/mL, masa &lt; 3.5-4 cm, sin actividad cardíaca fetal.</li>
+                        </ul>
+                        <p><strong>Evaluación Pre-MTX:</strong> BH, PFH, PFR, Grupo y Rh.</p>
+                        <p><strong>Contraindicaciones (Absolutas):</strong></p>
+                        <ul class="text-red-600">
+                            <li>Embarazo intrauterino coexistente, inmunodeficiencia, discrasias sanguíneas, enf. pulmonar/hepática/renal/úlcera péptica activas, lactancia, hipersensibilidad, imposibilidad de seguimiento.</li>
+                        </ul>
+                         <p><strong>Contraindicaciones (Relativas):</strong></p>
+                        <ul class="text-orange-600">
+                             <li>Actividad cardíaca fetal, hCG > 5000, masa > 4 cm, negativa a transfusión.</li>
+                        </ul>
+                        <p><strong>Régimen Común:</strong> Dosis Única (50 mg/m² IM). Seguimiento hCG días 4 y 7 (esperar caída ≥15%). Considerar 2ª dosis o cirugía si no hay respuesta.</p>
+                        <p><strong>Seguimiento Post-MTX:</strong> hCG semanal hasta &lt; 5 mIU/mL.</p>
+                        <p><strong>Consejos:</strong> Evitar fólico, AINEs, relaciones sexuales, exámenes pélvicos. Informar efectos secundarios. ¡Evitar embarazo por 3 meses!</p>
+                        <p class="text-red-700 font-semibold">Fracaso del MTX ➔ Cirugía.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-teal-700">2. Tratamiento Quirúrgico 🔪</h3>
+                        <p><strong>Indicaciones Principales:</strong></p>
+                        <ul>
+                            <li>Contraindicaciones/Fracaso de MTX.</li>
+                            <li>Embarazo heterotópico.</li>
+                            <li>Inestabilidad/Ruptura (¡Urgente!).</li>
+                            <li>Preferencia de la paciente.</li>
+                        </ul>
+                        <p><strong>Procedimientos (Laparoscopia preferida):</strong></p>
+                        <ul>
+                            <li><strong>Salpingectomía:</strong></li>
+                            <li class="ml-4">Extirpación COMPLETA de la trompa afectada.</li>
+                            <li class="ml-4">Preferida si trompa contralateral sana o trompa afectada muy dañada. Tratamiento definitivo.</li>
+                            <li><strong>Salpingostomía:</strong></li>
+                            <li class="ml-4">Incisión en la trompa, extracción del tejido ectópico, PRESERVACIÓN de la trompa.</li>
+                            <li class="ml-4">Considerar si deseo de fertilidad y trompa contralateral ausente/dañada.</li>
+                            <li class="ml-4">⚠️ Requiere seguimiento post-operatorio con hCG (riesgo de persistencia 5-15%).</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-center font-semibold">💉 ¡No olvidar Inmunoglobulina Anti-D en TODAS las pacientes Rh negativas!</p>
+            </div>
+        </div>
+
+         <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+        <div class="mb-4 overflow-hidden border border-transparent rounded-lg">
+            <button class="toggle-button section-resumen-btn" onclick="toggleSection('resumen')">
+                <span>📝 Resumen Práctico</span>
+                <span class="arrow-icon"><i class="fas fa-chevron-right"></i></span>
+            </button>
+            <div id="resumen" class="content-section section-resumen">
+                <ul class="list-disc list-inside ml-4 space-y-2">
+                    <li>📌 El embarazo ectópico es la implantación fuera del útero (más común: trompa de Falopio).</li>
+                    <li>⚠️ Conocer los factores de riesgo aumenta la sospecha, pero su ausencia no descarta el diagnóstico.</li>
+                    <li>🚨 La ruptura es una emergencia quirúrgica ➔ Reanimación + Cirugía Urgente.</li>
+                    <li>💚 En pacientes estables ➔ Diagnóstico con clínica + hCG seriada + Eco TV.</li>
+                    <li>⚖️ Tratamiento en estables no rotos: Médico (MTX) o Quirúrgico (Salpingostomía/Salpingectomía) según caso.</li>
+                    <li>🚫 Evaluar y respetar contraindicaciones de MTX.</li>
+                    <li>💉 Administrar Inmunoglobulina Anti-D a todas las Rh negativas.</li>
+                    <li>📉 Seguimiento con hCG post-tratamiento (MTX o Salpingostomía) es CRUCIAL hasta negativización.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Función para mostrar/ocultar secciones
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const button = section.previousElementSibling; // El botón está justo antes del contenido
+            const icon = button.querySelector('.arrow-icon i');
+
+            if (section.classList.contains('open')) {
+                // Cierra la sección
+                section.classList.remove('open');
+                button.classList.remove('open');
+                if (icon) { // Check if icon exists
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-right');
+                }
+                section.style.borderLeftColor = 'transparent'; // Reset border color on close
+
+            } else {
+                // Cierra cualquier otra sección que pudiera estar abierta (opcional, para modo acordeón)
+                // closeAllSections(); // Descomentar para modo acordeón
+
+                // Abre la sección actual
+                section.classList.add('open');
+                button.classList.add('open');
+                 if (icon) { // Check if icon exists
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
+                 }
+
+                 // Ajustar el borde izquierdo al color de la sección correspondiente usando variables CSS
+                 if (section.classList.contains('section-definicion')) section.style.borderLeftColor = 'var(--dm-accent-blue)';
+                 else if (section.classList.contains('section-riesgos')) section.style.borderLeftColor = 'var(--dm-accent-amber)';
+                 else if (section.classList.contains('section-inestable')) section.style.borderLeftColor = 'var(--dm-accent-red)';
+                 else if (section.classList.contains('section-estable')) section.style.borderLeftColor = 'var(--dm-accent-green)';
+                 else if (section.classList.contains('section-tratamiento')) section.style.borderLeftColor = 'var(--dm-accent-orange)';
+                 else if (section.classList.contains('section-resumen')) section.style.borderLeftColor = 'var(--dm-accent-gray)';
+                 else section.style.borderLeftColor = 'var(--dm-accent-gray)'; // Fallback
+
+            }
+        }
+
+        // Función opcional para cerrar todas las secciones (modo acordeón)
+        function closeAllSections() {
+            document.querySelectorAll('.content-section.open').forEach((openSection) => {
+                openSection.classList.remove('open');
+                openSection.style.borderLeftColor = 'transparent'; // Reset border color
+                const openButton = openSection.previousElementSibling;
+                 if (openButton) { // Check if button exists
+                    const openIcon = openButton.querySelector('.arrow-icon i');
+                    openButton.classList.remove('open');
+                    if (openIcon) { // Check if icon exists
+                        openIcon.classList.remove('fa-chevron-down');
+                        openIcon.classList.add('fa-chevron-right');
+                    }
+                 }
+            });
+        }
+
+        // Opcional: Abrir la primera sección por defecto al cargar
+        // window.onload = () => {
+        //     toggleSection('definicion');
+        // };
+    </script>
+
+</body>
+</html>
+</span>
                     </div>
                 </article>
 
