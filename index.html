@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integración Básico Clínica II</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Aplica la fuente 'Inter' a todo el cuerpo del documento */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Oculta el marcador predeterminado (flecha/triángulo) del elemento summary */
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::marker {
+            content: ''; /* Oculta el marcador en Firefox */
+            display: none;
+        }
+        /* Estilos para el elemento summary (el título clickeable de details) */
+        summary {
+            position: relative; /* Necesario para posicionar el pseudo-elemento ::before */
+            /* Aumentado el padding izquierdo para dar más espacio */
+            padding-left: 2rem; /* Antes era 1.75rem */
+            cursor: pointer; /* Cambia el cursor a una mano para indicar que es clickeable */
+            list-style: none; /* Elimina cualquier estilo de lista predeterminado */
+            display: block; /* Asegura que ocupe todo el ancho disponible */
+            user-select: none; /* Evita que el texto del summary sea seleccionable */
+            transition: background-color 0.2s ease; /* Transición suave para el hover */
+        }
+        /* Efecto hover para el summary */
+        summary:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Ligero cambio de fondo al pasar el mouse */
+        }
+        /* Flecha personalizada usando un pseudo-elemento ::before */
+        summary::before {
+            content: '►'; /* Carácter de flecha apuntando a la derecha (estado colapsado) */
+            position: absolute; /* Posicionamiento absoluto respecto al summary */
+            /* Ajustada la posición izquierda para coincidir con el nuevo padding */
+            left: 1rem; /* Antes era 0.75rem */
+            top: 50%; /* Centrado verticalmente */
+            transform: translateY(-50%); /* Ajuste fino para centrado vertical perfecto */
+            transition: transform 0.2s ease-in-out; /* Animación suave para la rotación */
+            color: white; /* Color de la flecha */
+            font-size: 0.8em; /* Tamaño de la flecha */
+        }
+        /* Estilo de la flecha cuando el elemento details está abierto */
+        details[open] > summary::before {
+            transform: translateY(-50%) rotate(90deg); /* Rota la flecha 90 grados hacia abajo */
+        }
+        /* Añade un borde inferior al summary cuando la sección está abierta */
+        details[open] > summary {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Línea separadora sutil */
+        }
+        /* Espaciado interno para el contenido dentro de details cuando está abierto */
+        details[open] > div {
+             padding-top: 1rem; /* Espacio superior para el contenido desplegado */
+        }
+        /* Estilos para los artículos individuales (infografías/casos clínicos) */
+        article {
+            transition: box-shadow 0.3s ease; /* Transición suave para la sombra al pasar el mouse */
+        }
+        article:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada al pasar el mouse */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-8 min-h-screen flex flex-col">
+
+    <header class="mb-8 md:mb-12">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white bg-black p-4 md:p-6 rounded-lg text-center shadow-lg">
+            Integración Básico Clínica - II
+        </h1>
+    </header>
+
+    <main class="space-y-6 flex-grow">
+
+        <details class="bg-blue-900 text-white rounded-lg shadow-md overflow-hidden group">
+            <summary class="text-xl md:text-2xl font-bold p-4 md:p-5 select-none">
+                Infografías Interactivas
+            </summary>
+            <div class="p-4 md:p-6 bg-white text-gray-800">
+                <article class="mb-6 p-4 border border-gray-200 rounded-lg shadow-sm bg-gray-50 hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-800">Infografía: Manejo de la Hipertensión Arterial</h3>
+                    <p class="text-sm text-gray-700 mb-3">Guía visual interactiva sobre el diagnóstico y tratamiento de la HTA según las últimas guías.</p>
+                    <div class="bg-gray-200 p-6 rounded text-center text-gray-500 min-h-[150px] flex items-center justify-center">
+                        <span>[Contenido Interactivo de la Infografía 1 Aquí]</span>
+                    </div>
+                </article>
+
+                <article class="mb-6 p-4 border border-gray-200 rounded-lg shadow-sm bg-gray-50 hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-800">Infografía: Interpretación del EKG</h3>
+                    <p class="text-sm text-gray-700 mb-3">Pasos clave y patrones comunes en la interpretación electrocardiográfica.</p>
+                    <div class="bg-gray-200 p-6 rounded text-center text-gray-500 min-h-[150px] flex items-center justify-center">
+                        <span>[Contenido Interactivo de la Infografía 2 Aquí]</span>
+                    </div>
+                </article>
+
+                </div>
+        </details>
+
+        <details class="bg-blue-900 text-white rounded-lg shadow-md overflow-hidden group">
+            <summary class="text-xl md:text-2xl font-bold p-4 md:p-5 select-none">
+                Casos Clínicos Interactivos
+            </summary>
+            <div class="p-4 md:p-6 bg-white text-gray-800">
+                 <article class="mb-6 p-4 border border-gray-200 rounded-lg shadow-sm bg-gray-50 hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-800">Caso Clínico: Dolor Torácico Agudo</h3>
+                    <p class="text-sm text-gray-700 mb-3">Paciente masculino de 55 años con dolor precordial opresivo. Evalúa y maneja el caso.</p>
+                    <div class="bg-gray-200 p-6 rounded text-center text-gray-500 min-h-[150px] flex items-center justify-center">
+                        <span>[Contenido Interactivo del Caso Clínico 1 Aquí]</span>
+                    </div>
+                </article>
+
+                <article class="mb-6 p-4 border border-gray-200 rounded-lg shadow-sm bg-gray-50 hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-800">Caso Clínico: Paciente con Disnea</h3>
+                    <p class="text-sm text-gray-700 mb-3">Mujer de 70 años con disnea progresiva. Diagnóstico diferencial y abordaje inicial.</p>
+                    <div class="bg-gray-200 p-6 rounded text-center text-gray-500 min-h-[150px] flex items-center justify-center">
+                        <span>[Contenido Interactivo del Caso Clínico 2 Aquí]</span>
+                    </div>
+                </article>
+
+                 </div>
+        </details>
+
+    </main>
+
+    <footer class="mt-12 text-center text-gray-500 text-xs md:text-sm py-4">
+        <p>&copy; <span id="year"></span> Dr. Carlos Nader.</p>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
+```
+Los cambios principales fueron en estas líneas dentro de la etiqueta `<style>`:
+
+* `summary { padding-left: 2rem; ... }` (antes era `1.75rem`)
+* `summary::before { left: 1rem; ... }` (antes era `0.75rem`)
+
+Esto debería proporcionar suficiente espacio para que la flecha no se solape con el texto del título de la secci
