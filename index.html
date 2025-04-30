@@ -3,27 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integración Básico Clínica II - Tema Profesional</title>
+    <title>Integración Básico Clínica II - Tema Azul Profesional</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Configuración General y Paleta --- */
+        /* --- Configuración General y Paleta Azul --- */
         :root {
-            --bg-main: #f8f9fa; /* Fondo principal muy claro */
-            --bg-container: #ffffff; /* Fondo de contenedores (blanco) */
-            --bg-header: #0f766e; /* Teal oscuro para el header */
-            --bg-details: #f1f5f9; /* Gris muy claro para secciones desplegables */
-            --bg-details-hover: #e2e8f0; /* Gris un poco más oscuro para hover */
+            /* Fondos */
+            --bg-main: #edf2f7; /* Gris muy claro, casi blanco pero más suave */
+            --bg-container: #ffffff; /* Blanco para contenedores principales */
+            --bg-header: #2b6cb0; /* Azul medio/oscuro para el header */
+            --bg-details: #e2e8f0; /* Azul muy pálido/grisáceo para fondo de secciones */
+            --bg-details-hover: #cbd5e0; /* Azul/gris un poco más oscuro para hover */
             --bg-article: #ffffff; /* Blanco para artículos */
-            --bg-article-hover: #f8fafc; /* Blanco ligeramente grisáceo para hover */
-            --text-main: #1f2937; /* Texto principal (gris muy oscuro) */
-            --text-secondary: #4b5563; /* Texto secundario (gris medio) */
+            --bg-article-hover: #f7fafc; /* Blanco ligeramente azulado/grisáceo */
+
+            /* Textos */
+            --text-main: #2d3748; /* Gris oscuro para texto principal */
+            --text-secondary: #4a5568; /* Gris medio para texto secundario */
             --text-header: #ffffff; /* Texto del header (blanco) */
-            --text-title-section: #0f766e; /* Teal oscuro para títulos de sección */
-            --text-title-article: #115e59; /* Teal más oscuro para títulos de artículo */
-            --text-key-concept: #0e7490; /* Cyan oscuro para conceptos clave */
-            --border-color: #e5e7eb; /* Borde gris claro */
-            --arrow-color: #0f766e; /* Color de la flecha (teal) */
+            --text-title-section: #2c5282; /* Azul oscuro para títulos de sección */
+            --text-title-article: #2b6cb0; /* Azul medio para títulos de artículo */
+            --text-key-concept: #3182ce; /* Azul brillante para conceptos clave */
+
+            /* Bordes y Acentos */
+            --border-color: #e2e8f0; /* Borde azul/gris pálido */
+            --arrow-color: #2c5282; /* Color de la flecha (azul oscuro) */
+            --shadow-color-light: rgba(45, 55, 72, 0.1); /* Sombra clara */
+            --shadow-color-medium: rgba(45, 55, 72, 0.15); /* Sombra media */
         }
 
         body {
@@ -40,7 +47,7 @@
 
         summary {
             position: relative;
-            padding-left: 2.25rem; /* Más espacio para la flecha y texto */
+            padding-left: 2.25rem;
             padding-top: 1rem;
             padding-bottom: 1rem;
             cursor: pointer;
@@ -49,13 +56,14 @@
             user-select: none;
             transition: background-color 0.2s ease;
             color: var(--text-title-section);
-            font-weight: 600; /* Semi-bold para títulos de sección */
+            font-weight: 600;
             font-size: 1.25rem; /* lg */
+            border-top-left-radius: 0.5rem; /* Redondeo superior */
+            border-top-right-radius: 0.5rem;
         }
         @media (min-width: 768px) {
              summary { font-size: 1.5rem; /* xl */ }
         }
-
 
         summary:hover {
             background-color: var(--bg-details-hover);
@@ -64,7 +72,7 @@
         summary::before {
             content: '►';
             position: absolute;
-            left: 1rem; /* Espacio desde el borde */
+            left: 1rem;
             top: 50%;
             transform: translateY(-50%);
             transition: transform 0.2s ease-in-out;
@@ -78,11 +86,14 @@
 
         details[open] > summary {
             border-bottom: 1px solid var(--border-color);
+             /* Quitar redondeo inferior cuando está abierto */
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
         details[open] > div {
-             padding-top: 1.5rem; /* Más espacio superior */
-             padding-left: 2.25rem; /* Sangría consistente con el summary */
+             padding-top: 1.5rem;
+             padding-left: 2.25rem;
              padding-right: 1.5rem;
              padding-bottom: 1.5rem;
         }
@@ -92,33 +103,40 @@
             transition: box-shadow 0.3s ease, transform 0.2s ease;
             background-color: var(--bg-article);
             border: 1px solid var(--border-color);
-            border-radius: 0.5rem; /* Esquinas redondeadas */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            overflow: hidden; /* Para asegurar que el borde redondeado funcione bien */
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px var(--shadow-color-light);
+            overflow: hidden;
         }
         article:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px); /* Ligero efecto de elevación */
+            box-shadow: 0 5px 15px var(--shadow-color-medium);
+            transform: translateY(-2px);
+            background-color: var(--bg-article-hover);
         }
 
         article h3 {
             color: var(--text-title-article);
-            font-weight: 600; /* Semi-bold */
+            font-weight: 600;
         }
         article p {
             color: var(--text-secondary);
         }
         .key-concept {
             color: var(--text-key-concept);
-            font-weight: 600; /* Semi-bold */
+            font-weight: 600;
         }
 
         /* Placeholder div styling */
         .placeholder-content {
-            background-color: #f3f4f6; /* Gris muy claro */
-            color: #6b7280; /* Gris medio */
-            border: 1px dashed #d1d5db; /* Borde punteado gris claro */
-            border-radius: 0.375rem; /* Esquinas redondeadas */
+            background-color: #f8fafc; /* Fondo muy claro */
+            color: #718096; /* Gris azulado */
+            border: 1px dashed #cbd5e0; /* Borde azul/gris pálido */
+            border-radius: 0.375rem;
+            padding: 1.5rem;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Footer text color */
@@ -126,17 +144,25 @@
             color: var(--text-secondary);
         }
 
-        /* --- Estilos específicos Tailwind (se pueden ajustar) --- */
+        /* --- Estilos específicos --- */
         /* Contenedor principal de secciones desplegables */
         .details-container {
             background-color: var(--bg-details);
-            border-radius: 0.75rem; /* Bordes más redondeados */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            overflow: hidden; /* Para bordes redondeados */
+            border-radius: 0.75rem; /* Bordes redondeados */
+            box-shadow: 0 4px 6px var(--shadow-color-light);
+            overflow: hidden;
         }
         /* Contenido dentro de las secciones desplegables */
         .details-content {
-             background-color: var(--bg-container); /* Fondo blanco para el contenido */
+             background-color: var(--bg-container); /* Fondo blanco */
+             /* Asegura redondeo inferior cuando está abierto */
+             border-bottom-left-radius: 0.5rem;
+             border-bottom-right-radius: 0.5rem;
+        }
+
+        /* Eliminar margen inferior del último artículo */
+        .details-content article:last-child {
+             margin-bottom: 0;
         }
 
     </style>
@@ -149,15 +175,17 @@
         </h1>
     </header>
 
-    <main class="space-y-8 flex-grow"> <details class="details-container group">
-            <summary class="text-xl md:text-2xl"> {/* Tailwind classes removidas para usar CSS puro */}
+    <main class="space-y-8 flex-grow">
+
+        <details class="details-container group">
+            <summary class="text-xl md:text-2xl">
                 Infografías Interactivas
             </summary>
-            <div class="details-content p-4 md:p-6"> {/* Fondo blanco y padding */}
-                <article class="mb-6 p-5"> {/* Padding interno aumentado */}
+            <div class="details-content p-4 md:p-6">
+                <article class="mb-6 p-5">
                     <h3 class="text-lg font-semibold mb-2">Infografía: Manejo de la Hipertensión Arterial</h3>
                     <p class="text-sm mb-3">Guía visual interactiva sobre el diagnóstico y tratamiento de la <strong class="key-concept">HTA</strong> según las últimas guías.</p>
-                    <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
+                    <div class="placeholder-content">
                         <span>[Contenido Interactivo de la Infografía 1 Aquí]</span>
                     </div>
                 </article>
@@ -165,7 +193,7 @@
                 <article class="mb-6 p-5">
                      <h3 class="text-lg font-semibold mb-2">Infografía: Embarazo Ectópico</h3>
                      <p class="text-sm mb-3">Resumen interactivo del tema <strong class="key-concept">Embarazo Ectópico</strong>.</p>
-                    <div id="infografiaEctopicoContainer" class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
+                    <div id="infografiaEctopicoContainer" class="placeholder-content">
                          <span>[Aquí se mostraría la Infografía de Embarazo Ectópico]</span>
                     </div>
                 </article>
@@ -173,11 +201,10 @@
                 <article class="mb-6 p-5">
                      <h3 class="text-lg font-semibold mb-2">Infografía: Interpretación del EKG</h3>
                      <p class="text-sm mb-3">Pasos clave y patrones comunes en la interpretación <strong class="key-concept">electrocardiográfica</strong>.</p>
-                     <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
+                     <div class="placeholder-content">
                         <span>[Contenido Interactivo de la Infografía 2 Aquí]</span>
                     </div>
                 </article>
-                <style> .details-content article:last-child { margin-bottom: 0; } </style>
             </div>
         </details>
 
@@ -189,7 +216,7 @@
                 <article class="mb-6 p-5">
                     <h3 class="text-lg font-semibold mb-2">Caso Clínico: Dolor Torácico Agudo</h3>
                     <p class="text-sm mb-3">Paciente masculino de 55 años con <strong class="key-concept">dolor precordial opresivo</strong>. Evalúa y maneja el caso.</p>
-                    <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
+                    <div class="placeholder-content">
                         <span>[Contenido Interactivo del Caso Clínico 1 Aquí]</span>
                     </div>
                 </article>
@@ -197,11 +224,10 @@
                 <article class="mb-6 p-5">
                      <h3 class="text-lg font-semibold mb-2">Caso Clínico: Paciente con Disnea</h3>
                      <p class="text-sm mb-3">Mujer de 70 años con <strong class="key-concept">disnea progresiva</strong>. Diagnóstico diferencial y abordaje inicial.</p>
-                     <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
+                     <div class="placeholder-content">
                         <span>[Contenido Interactivo del Caso Clínico 2 Aquí]</span>
                     </div>
                 </article>
-                 <style> .details-content article:last-child { margin-bottom: 0; } </style>
             </div>
         </details>
 
@@ -216,8 +242,8 @@
 
         // Script para funcionalidad de infografía (si es necesario)
         function toggleSection(sectionId) {
-             // Implementar lógica si se integra la infografía directamente
-             console.log("Toggle section:", sectionId);
+             console.log("Toggle section interna:", sectionId);
+             // Implementar lógica de la infografía si se pega directamente.
         }
     </script>
 
