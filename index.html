@@ -3,178 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integración Básico Clínica II - Modo Oscuro</title>
+    <title>Integración Básico Clínica II - Tema Profesional</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Aplica la fuente 'Inter' a todo el cuerpo del documento */
+        /* --- Configuración General y Paleta --- */
+        :root {
+            --bg-main: #f8f9fa; /* Fondo principal muy claro */
+            --bg-container: #ffffff; /* Fondo de contenedores (blanco) */
+            --bg-header: #0f766e; /* Teal oscuro para el header */
+            --bg-details: #f1f5f9; /* Gris muy claro para secciones desplegables */
+            --bg-details-hover: #e2e8f0; /* Gris un poco más oscuro para hover */
+            --bg-article: #ffffff; /* Blanco para artículos */
+            --bg-article-hover: #f8fafc; /* Blanco ligeramente grisáceo para hover */
+            --text-main: #1f2937; /* Texto principal (gris muy oscuro) */
+            --text-secondary: #4b5563; /* Texto secundario (gris medio) */
+            --text-header: #ffffff; /* Texto del header (blanco) */
+            --text-title-section: #0f766e; /* Teal oscuro para títulos de sección */
+            --text-title-article: #115e59; /* Teal más oscuro para títulos de artículo */
+            --text-key-concept: #0e7490; /* Cyan oscuro para conceptos clave */
+            --border-color: #e5e7eb; /* Borde gris claro */
+            --arrow-color: #0f766e; /* Color de la flecha (teal) */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Gris oscuro casi negro para el fondo general */
-            color: #ffffff; /* Texto blanco por defecto */
+            background-color: var(--bg-main);
+            color: var(--text-main);
         }
 
-        /* --- Estilos para los elementos <details> y <summary> (Menú desplegable) --- */
-
-        /* Oculta el marcador predeterminado (flecha/triángulo) */
-        summary::-webkit-details-marker {
-            display: none;
-        }
+        /* --- Estilos para <details> y <summary> --- */
+        summary::-webkit-details-marker,
         summary::marker {
-            content: '';
             display: none;
         }
 
-        /* Estilos para el título clickeable (<summary>) */
         summary {
             position: relative;
-            /* Aumentado el padding izquierdo para evitar empalme con la flecha */
-            padding-left: 2rem; /* Espacio para la flecha */
+            padding-left: 2.25rem; /* Más espacio para la flecha y texto */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
             cursor: pointer;
             list-style: none;
             display: block;
             user-select: none;
             transition: background-color 0.2s ease;
-            /* Color de texto verde fosforescente para títulos de sección */
-            color: #34d399; /* Ajusta este verde si prefieres otro tono */
+            color: var(--text-title-section);
+            font-weight: 600; /* Semi-bold para títulos de sección */
+            font-size: 1.25rem; /* lg */
+        }
+        @media (min-width: 768px) {
+             summary { font-size: 1.5rem; /* xl */ }
         }
 
-        /* Efecto hover para el summary */
+
         summary:hover {
-            background-color: rgba(255, 255, 255, 0.05); /* Ligero cambio de fondo al pasar el mouse */
+            background-color: var(--bg-details-hover);
         }
 
-        /* Flecha personalizada */
         summary::before {
-            content: '►'; /* Flecha derecha (colapsado) */
+            content: '►';
             position: absolute;
-            /* Posición izquierda ajustada */
-            left: 1rem;
+            left: 1rem; /* Espacio desde el borde */
             top: 50%;
             transform: translateY(-50%);
             transition: transform 0.2s ease-in-out;
-            /* Color de la flecha (puede ser blanco o el mismo verde del título) */
-            color: #ffffff;
+            color: var(--arrow-color);
             font-size: 0.8em;
         }
 
-        /* Flecha cuando está abierto */
         details[open] > summary::before {
-            transform: translateY(-50%) rotate(90deg); /* Rota la flecha */
+            transform: translateY(-50%) rotate(90deg);
         }
 
-        /* Borde inferior sutil cuando está abierto */
         details[open] > summary {
-            border-bottom: 1px solid #4b5563; /* Gris oscuro para el borde */
+            border-bottom: 1px solid var(--border-color);
         }
 
-        /* Espaciado y sangría para el contenido desplegado */
         details[open] > div {
-             padding-top: 1rem;
-             /* Añadimos padding izquierdo para la sangría del contenido */
-             padding-left: 2rem; /* Ajusta este valor según la sangría deseada */
+             padding-top: 1.5rem; /* Más espacio superior */
+             padding-left: 2.25rem; /* Sangría consistente con el summary */
+             padding-right: 1.5rem;
+             padding-bottom: 1.5rem;
         }
 
-        /* --- Estilos para los artículos (infografías/casos) --- */
+        /* --- Estilos para los artículos --- */
         article {
-            transition: box-shadow 0.3s ease, background-color 0.3s ease;
-            /* Fondo ligeramente más claro que el contenedor para destacar */
-            background-color: #1f2937; /* Gris más oscuro */
-            border-color: #4b5563; /* Borde gris oscuro */
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+            background-color: var(--bg-article);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem; /* Esquinas redondeadas */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            overflow: hidden; /* Para asegurar que el borde redondeado funcione bien */
         }
         article:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada */
-            background-color: #374151; /* Gris un poco más claro al pasar el mouse */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px); /* Ligero efecto de elevación */
         }
 
-        /* Estilos específicos para texto dentro de los artículos */
         article h3 {
-            color: #34d399; /* Verde fosforescente para títulos de artículo */
+            color: var(--text-title-article);
+            font-weight: 600; /* Semi-bold */
         }
         article p {
-            color: #d1d5db; /* Gris claro para descripción */
+            color: var(--text-secondary);
         }
-        /* Estilo para conceptos clave (usar con <strong class="key-concept">) */
         .key-concept {
-            color: #facc15; /* Amarillo fosforescente */
-            font-weight: bold;
+            color: var(--text-key-concept);
+            font-weight: 600; /* Semi-bold */
         }
 
         /* Placeholder div styling */
         .placeholder-content {
-            background-color: #374151; /* Gris oscuro */
-            color: #9ca3af; /* Gris medio para texto placeholder */
-            border: 1px dashed #4b5563; /* Borde punteado gris */
+            background-color: #f3f4f6; /* Gris muy claro */
+            color: #6b7280; /* Gris medio */
+            border: 1px dashed #d1d5db; /* Borde punteado gris claro */
+            border-radius: 0.375rem; /* Esquinas redondeadas */
         }
 
         /* Footer text color */
         footer {
-            color: #9ca3af; /* Gris medio */
+            color: var(--text-secondary);
         }
 
-        /* --- Estilos para la Infografía Incrustada (si se usa) --- */
-        /* Asegurar que la infografía (si se incrusta directamente) herede el tema oscuro */
-        #infografiaEctopico { /* ID del contenedor de la infografía */
-             background-color: #1f2937; /* Fondo oscuro para el contenedor */
-             color: #ffffff; /* Texto blanco por defecto dentro */
-             border: 1px solid #4b5563;
-             padding: 1rem; /* Añadir padding si no lo tiene */
+        /* --- Estilos específicos Tailwind (se pueden ajustar) --- */
+        /* Contenedor principal de secciones desplegables */
+        .details-container {
+            background-color: var(--bg-details);
+            border-radius: 0.75rem; /* Bordes más redondeados */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            overflow: hidden; /* Para bordes redondeados */
         }
-        #infografiaEctopico h1,
-        #infografiaEctopico h2,
-        #infografiaEctopico h3,
-        #infografiaEctopico .toggle-button span:first-child { /* Títulos dentro de la infografía */
-             color: #34d399 !important; /* Verde fosforescente (usar !important si es necesario sobreescribir) */
+        /* Contenido dentro de las secciones desplegables */
+        .details-content {
+             background-color: var(--bg-container); /* Fondo blanco para el contenido */
         }
-         #infografiaEctopico p,
-         #infografiaEctopico li,
-         #infografiaEctopico span { /* Texto normal dentro de la infografía */
-             color: #ffffff !important;
-         }
-         #infografiaEctopico strong:not(.text-red-600):not(.text-orange-600):not(.text-amber-800):not(.text-blue-600) { /* Conceptos clave (ejemplo) */
-             color: #facc15 !important; /* Amarillo fosforescente */
-         }
-         /* Ajustar fondos de secciones de infografía */
-         #infografiaEctopico .content-section {
-             background-color: #111827 !important; /* Fondo principal oscuro */
-             border-left-color: #34d399 !important; /* Borde verde */
-         }
-          #infografiaEctopico .toggle-button {
-             background-color: #1f2937 !important; /* Fondo de botón oscuro */
-         }
-         #infografiaEctopico .toggle-button:hover {
-             background-color: #374151 !important; /* Hover más claro */
-         }
-         /* Ajustar colores específicos de la infografía si es necesario */
-          #infografiaEctopico .text-red-800, #infografiaEctopico .text-red-700, #infografiaEctopico .text-red-600 { color: #f87171 !important; } /* Rojos más brillantes */
-          #infografiaEctopico .text-amber-800, #infografiaEctopico .text-amber-700 { color: #fbbf24 !important; } /* Ámbar más brillante */
-          #infografiaEctopico .text-blue-800, #infografiaEctopico .text-blue-700, #infografiaEctopico .text-blue-600 { color: #60a5fa !important; } /* Azules más brillantes */
-          #infografiaEctopico .text-green-700 { color: #34d399 !important; } /* Verde */
-          #infografiaEctopico .text-orange-700, #infografiaEctopico .text-orange-600 { color: #fb923c !important; } /* Naranja más brillante */
-          #infografiaEctopico .text-purple-700 { color: #a78bfa !important; } /* Púrpura más brillante */
-          #infografiaEctopico .text-teal-700 { color: #2dd4bf !important; } /* Teal más brillante */
-          #infografiaEctopico .text-gray-700 { color: #d1d5db !important; } /* Gris claro */
-           #infografiaEctopico .flow-arrow i { color: #9ca3af !important; } /* Flechas grises */
-
 
     </style>
 </head>
-<body class="bg-gray-900 text-white p-4 md:p-8 min-h-screen flex flex-col">
+<body class="p-4 md:p-8 min-h-screen flex flex-col">
 
     <header class="mb-8 md:mb-12">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-lime-400 bg-gray-800 p-4 md:p-6 rounded-lg text-center shadow-lg">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold p-4 md:p-6 rounded-lg text-center shadow-lg" style="background-color: var(--bg-header); color: var(--text-header);">
             Integración Básico Clínica - II
         </h1>
     </header>
 
-    <main class="space-y-6 flex-grow">
-
-        <details class="bg-gray-800 text-white rounded-lg shadow-md overflow-hidden group">
-            <summary class="text-xl md:text-2xl font-bold p-4 md:p-5 select-none">
+    <main class="space-y-8 flex-grow"> <details class="details-container group">
+            <summary class="text-xl md:text-2xl"> {/* Tailwind classes removidas para usar CSS puro */}
                 Infografías Interactivas
             </summary>
-            <div class="p-4 md:p-6 bg-gray-900 text-gray-300">
-                <article class="mb-6 p-4 border border-gray-700 rounded-lg shadow-sm hover:shadow-md">
+            <div class="details-content p-4 md:p-6"> {/* Fondo blanco y padding */}
+                <article class="mb-6 p-5"> {/* Padding interno aumentado */}
                     <h3 class="text-lg font-semibold mb-2">Infografía: Manejo de la Hipertensión Arterial</h3>
                     <p class="text-sm mb-3">Guía visual interactiva sobre el diagnóstico y tratamiento de la <strong class="key-concept">HTA</strong> según las últimas guías.</p>
                     <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
@@ -182,30 +162,31 @@
                     </div>
                 </article>
 
-                <article class="mb-6 p-4 border border-gray-700 rounded-lg shadow-sm hover:shadow-md">
+                <article class="mb-6 p-5">
                      <h3 class="text-lg font-semibold mb-2">Infografía: Embarazo Ectópico</h3>
                      <p class="text-sm mb-3">Resumen interactivo del tema <strong class="key-concept">Embarazo Ectópico</strong>.</p>
                     <div id="infografiaEctopicoContainer" class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
                          <span>[Aquí se mostraría la Infografía de Embarazo Ectópico]</span>
-                         </div>
+                    </div>
                 </article>
 
-                <article class="mb-6 p-4 border border-gray-700 rounded-lg shadow-sm hover:shadow-md">
+                <article class="mb-6 p-5">
                      <h3 class="text-lg font-semibold mb-2">Infografía: Interpretación del EKG</h3>
                      <p class="text-sm mb-3">Pasos clave y patrones comunes en la interpretación <strong class="key-concept">electrocardiográfica</strong>.</p>
                      <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
                         <span>[Contenido Interactivo de la Infografía 2 Aquí]</span>
                     </div>
                 </article>
+                <style> .details-content article:last-child { margin-bottom: 0; } </style>
             </div>
         </details>
 
-        <details class="bg-gray-800 text-white rounded-lg shadow-md overflow-hidden group">
-             <summary class="text-xl md:text-2xl font-bold p-4 md:p-5 select-none">
+        <details class="details-container group">
+             <summary class="text-xl md:text-2xl">
                 Casos Clínicos Interactivos
             </summary>
-             <div class="p-4 md:p-6 bg-gray-900 text-gray-300">
-                <article class="mb-6 p-4 border border-gray-700 rounded-lg shadow-sm hover:shadow-md">
+             <div class="details-content p-4 md:p-6">
+                <article class="mb-6 p-5">
                     <h3 class="text-lg font-semibold mb-2">Caso Clínico: Dolor Torácico Agudo</h3>
                     <p class="text-sm mb-3">Paciente masculino de 55 años con <strong class="key-concept">dolor precordial opresivo</strong>. Evalúa y maneja el caso.</p>
                     <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
@@ -213,47 +194,31 @@
                     </div>
                 </article>
 
-                <article class="mb-6 p-4 border border-gray-700 rounded-lg shadow-sm hover:shadow-md">
+                <article class="mb-6 p-5">
                      <h3 class="text-lg font-semibold mb-2">Caso Clínico: Paciente con Disnea</h3>
                      <p class="text-sm mb-3">Mujer de 70 años con <strong class="key-concept">disnea progresiva</strong>. Diagnóstico diferencial y abordaje inicial.</p>
                      <div class="placeholder-content p-6 rounded text-center min-h-[150px] flex items-center justify-center">
                         <span>[Contenido Interactivo del Caso Clínico 2 Aquí]</span>
                     </div>
                 </article>
+                 <style> .details-content article:last-child { margin-bottom: 0; } </style>
             </div>
         </details>
 
     </main>
 
-    <footer class="mt-12 text-center text-gray-400 text-xs md:text-sm py-4">
+    <footer class="mt-12 text-center text-xs md:text-sm py-4">
         <p>&copy; <span id="year"></span> Dr. Carlos Nader.</p>
     </footer>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // --- Script para la infografía (si se carga dinámicamente o se integra directamente) ---
-        // Asegúrate de que las funciones toggleSection y closeAllSections estén disponibles
-        // si la infografía se integra directamente.
+        // Script para funcionalidad de infografía (si es necesario)
         function toggleSection(sectionId) {
-             const section = document.getElementById(sectionId);
-             const button = section.previousElementSibling;
-             const icon = button.querySelector('.arrow-icon i');
-             // ... (resto de la lógica de toggleSection como en la infografía original) ...
-             if (section.classList.contains('open')) {
-                 section.classList.remove('open');
-                 button.classList.remove('open');
-                 if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-right'); }
-                 section.style.borderLeftColor = 'transparent';
-             } else {
-                 section.classList.add('open');
-                 button.classList.add('open');
-                 if (icon) { icon.classList.remove('fa-chevron-right'); icon.classList.add('fa-chevron-down'); }
-                 // Aplicar color de borde izquierdo (ejemplo verde)
-                 section.style.borderLeftColor = '#34d399';
-             }
+             // Implementar lógica si se integra la infografía directamente
+             console.log("Toggle section:", sectionId);
         }
-        // function closeAllSections() { ... } // Incluir si es necesario
     </script>
 
 </body>
